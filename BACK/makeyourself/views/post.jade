@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 Mon formulaire
+  form(action="post", method="post")
+    input(name="nom" type="text", placeholder="nom")
+    input(name="prenom" type="text", placeholder="prénom")
+    input(type="submit", value="ENVOYER")
+
