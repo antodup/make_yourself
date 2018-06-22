@@ -35,9 +35,12 @@
             </ul>
           </b-col>
           <b-col md="2">
-            <h1><router-link to="/"><img src="../../assets/logo.svg" alt="Make YourSelf"></router-link></h1>
+            <h1>
+              <router-link to="/" v-on:click.native="changeHeaderHome"><img src="../../assets/logo.svg"
+                                                                            alt="Make YourSelf"></router-link>
+            </h1>
           </b-col>
-          <b-col md="5" class="ctn-right">
+          <b-col md="4" class="ctn-right">
             <ul>
               <li>
                 <a href="/#where">Où sommes nous ?</a>
@@ -47,9 +50,28 @@
               </li>
             </ul>
           </b-col>
-          <p>{{loadedHeader}}</p>
+          <b-col md="1" v-if="loadedHeader == 'commander'" v-model="loadedHeader" class="button-commander">
+            <section>
+              <img src="../../assets/icones/profile.svg" alt="profile">
+              <p>Profile</p>
+            </section>
+            <section>
+              <img src="../../assets/icones/panier.svg" alt="panier">
+              <p>Panier</p>
+            </section>
+          </b-col>
         </b-row>
       </b-container>
+      <section class="profile">
+        <ul>
+          <li>
+            <router-link to="">Connexion</router-link>
+          </li>
+          <li>
+            <router-link to="">Inscription</router-link>
+          </li>
+        </ul>
+      </section>
     </nav>
   </header>
 </template>
@@ -57,17 +79,21 @@
 <script>
   import Vuex from 'vuex'
 
+
   export default {
     name: "Header",
     data() {
       return {
-        header : null,
+        path: window.location.pathname
       }
     },
     computed: {
       ...Vuex.mapGetters([
         'loadedHeader'
-      ]),
+      ])
+    },
+    mounted() {
+      this.loadedHeader
     },
     methods: {
       /* todo : Faire la partie JS du responsive : Menu Burger */
@@ -80,6 +106,15 @@
             document.querySelector("#ctn-burger").style.display = "none"
           }
         })
+      },
+      ...Vuex.mapActions([
+        'changeHeader'
+      ]),
+      changeHeaderHome() {
+        if (this.path == "/") {
+          const payload = 'normal'
+          this.changeHeader(payload)
+        }
       }
     }
   }
@@ -206,6 +241,63 @@
           }
         }
 
+      }
+    }
+    .button-commander {
+      display: flex;
+      padding: 0;
+      justify-content: space-around;
+      section {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 40%;
+        cursor: pointer;
+        img {
+          width: 84%;
+          margin-bottom: 0px;
+          height: 37px;
+        }
+        p {
+          margin-bottom: 0;
+          transition: color 0.5s;
+          font-size: 0.9em;
+        }
+        &:hover {
+          p {
+            color: $blue;
+          }
+        }
+        &:active {
+          p {
+            color: $blue;
+          }
+        }
+      }
+    }
+    .profile {
+      position: absolute;
+      left: 85%;
+      background-color: white;
+      ul {
+        display: block;
+
+        li {
+          display: block;
+          margin: 0;
+          padding: 15px;
+          &:hover {
+            background-color: $yellow;
+            color: white;
+          }
+          a {
+            font-size: 1.2em;
+            font-family: 'Gotham-Book';
+            &:hover {
+              color: white;
+            }
+          }
+        }
       }
     }
   }

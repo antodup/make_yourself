@@ -4,32 +4,42 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  burgerFinished: [{
-    pain: 'Pain blanc',
-    condiments1: 'Bacon',
-    proteines: 'Boeuf',
-    condiments2: 'Salade',
-    condiments3: 'Cheese'
-  }],
+  resultBurger: {
+    resultPain: [],
+    resultCondiment1: [],
+    resultProteines: [],
+    resultCondiment2: [],
+    resultCondiment3: [],
+  },
   headerChange: 'normal'
 }
 
 const mutations = {
   CHANGE_HEADER(state, payload) {
     state.headerChange = payload
+  },
+  ADD_BURGER (state, payload){
+    state.resultBurger = payload
   }
 }
 
 const actions = {
   changeHeader({commit}, payload) {
-    payload = 'commander'
     commit('CHANGE_HEADER', payload)
+  },
+  addBurger ({commit}, payload) {
+    console.log(payload)
+    commit('ADD_BURGER', payload)
   }
+
 }
 
 const getters = {
   loadedHeader(state) {
     return state.headerChange
+  },
+  loadedBurger(state) {
+    return state.result
   }
 }
 

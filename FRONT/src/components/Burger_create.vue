@@ -165,10 +165,8 @@
                 </transition-group>
               </draggable>
               <!--todo : a voir pour le chevron -->
-              <a  @click="resultBurger" class="btn btn-perso">Valider ><i
-                class="fal fa-chevron-right"></i>
-
-              </a>
+              <a @click="addBurgerClick" class="btn btn-perso">Valider ><i
+                class="fal fa-chevron-right"></i></a>
             </section>
           </section>
         </b-col>
@@ -196,6 +194,7 @@
 <script>
   import draggable from 'vuedraggable'
   import Vuex from 'vuex'
+
 
   export default {
     components: {
@@ -284,10 +283,11 @@
     },
     methods: {
       ...Vuex.mapActions([
-        'changeHeader'
+        'addBurger'
       ]),
-      resultBurger() {
-        console.log(this.result)
+      addBurgerClick() {
+       const payload = this.result
+        this.addBurger(payload)
       },
       onMove({relatedContext, draggedContext}) {
         const relatedElement = relatedContext.element;
@@ -446,14 +446,11 @@
       },
       list2String() {
         return JSON.stringify(this.result.resultPain, null, 2);
-      },
-      ...Vuex.mapGetters([
-        'loadedHeader'
-      ])
+      }
     },
-    mounted() {
-      this.changeHeader
-    },
+
+
+
     watch: {
       isDragging(newValue) {
         if (newValue) {

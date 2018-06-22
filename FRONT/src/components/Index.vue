@@ -3,7 +3,7 @@
     <section id="shop" class="shop section-home">
       <b-col md="12">
         <h2>Vos envies, Vos idées ! <br> Venez commander votre burger personnalisable !</h2>
-        <router-link to="/commander" class="btn-perso btn-yellow">
+        <router-link to="/commander" v-on:click.native="changeHeaderHome" class="btn-perso btn-yellow">
           Commander !
         </router-link>
       </b-col>
@@ -60,6 +60,8 @@
 </template>
 
 <script>
+  import Vuex from 'vuex'
+
   export default {
     data() {
       return {
@@ -69,7 +71,6 @@
         message: ''
       }
     },
-    props: ['header'],
     methods: {
       testData() {
         this.$http.post('http://localhost:3000/test', {
@@ -84,6 +85,13 @@
           .catch((error) => {
             console.log(error)
           })
+      },
+      ...Vuex.mapActions([
+        'changeHeader'
+      ]),
+      changeHeaderHome() {
+        const payload = 'commander'
+        this.changeHeader(payload)
       }
     }
   }
