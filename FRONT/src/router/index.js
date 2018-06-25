@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import Commander from '@/components/Commander'
 import Burger_create from '@/components/Burger_create'
+import Connexion from'@/components/Connexion'
+import Inscription from'@/components/Inscription'
+
 
 
 Vue.use(Router)
@@ -24,6 +27,16 @@ export default new Router({
       path: '/creation_burger',
       name: 'Burger_create',
       component: Burger_create
+    },
+    {
+      path: '/connexion',
+      name: 'Connexion',
+      component: Connexion
+    },
+    {
+      path: '/inscription',
+      name: 'Inscription',
+      component: Inscription
     }
   ]
 })

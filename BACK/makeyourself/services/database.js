@@ -10,11 +10,11 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-    host: '127.0.0.1',
-    port: '8889',
-    user: 'root',
+    host: 'mysql-makeyourself.alwaysdata.net',
+    port: '3306',
+    user: '161956',
     password: 'root',
-    database: 'makeyourself'
+    database: 'makeyourself_bdd'
 })
 
 connection.connect(function (err) {

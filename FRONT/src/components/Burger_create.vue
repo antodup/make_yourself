@@ -5,13 +5,13 @@
         <!--COL-LEFT : INGREDIENT-->
         <b-col md="2" class="img-group-ingredient">
           <draggable class="list-group-item active ingredient-bread"
-                     element="section" v-model="ingredients.pains"
+                     element="section" v-model="loadedIngredient.pains"
                      :options="dragOptions"
                      :move="onMove"
                      @start="isDragging=true"
                      @end="isDragging=false">
             <transition-group type="transition" :name="'flip-list'">
-              <div v-for="element in ingredients.pains"
+              <div v-for="element in loadedIngredient.pains"
                    v-bind:style="{ 'background-image': 'url(' + element.src + ')' }"
                    :key="element.name" class="">
                 <p class="description-ingredient">{{element.name}}</p>
@@ -21,15 +21,15 @@
 
           <draggable class="list-group-item disabled ingredient-condiment"
                      element="section"
-                     v-model="ingredients.condiments"
+                     v-model="loadedIngredient.condiments"
                      :options="dragOptions"
                      :move="onMove"
                      @start="isDragging=true"
                      @end="isDragging=false">
             <transition-group type="transition" :name="'flip-list'">
-              <div v-for="element in ingredients.condiments"
+              <div v-for="element in loadedIngredient.condiments"
                    v-bind:style="{ 'background-image': 'url(' + element.src + ')' }"
-                   :key="element.name" class="handle">
+                   :key="element.name">
                 <p class="description-ingredient">{{element.name}}</p>
               </div>
             </transition-group>
@@ -37,14 +37,14 @@
 
           <draggable class="list-group-item disabled ingredient-proteine"
                      element="section"
-                     v-model="ingredients.proteines"
+                     v-model="loadedIngredient.proteines"
                      :options="dragOptions"
                      :move="onMove"
                      @start="isDragging=true" @end="isDragging=false">
             <transition-group type="transition" :name="'flip-list'">
-              <div v-for="element in ingredients.proteines"
+              <div v-for="element in loadedIngredient.proteines"
                    v-bind:style="{ 'background-image': 'url(' + element.src + ')' }"
-                   :key="element.name" class="handle">
+                   :key="element.name">
                 <p class="description-ingredient">{{element.name}}</p>
               </div>
             </transition-group>
@@ -69,7 +69,7 @@
                          class="drag1 ingredient burger-pain"
                          v-model="result.resultPain"
                          :move="onMove"
-                         :options="dragOptions"
+                         :options="dragOptions2"
                          id="drag1">
                 <button class="btn-change" @click="changeIngredient" :key="key">
                   <img src="../assets/icones/change.svg" alt="change"/>
@@ -87,7 +87,7 @@
                          class="ingredient burger-condiment"
                          v-model="result.resultCondiment1"
                          :move="onMove"
-                         :options="dragOptions"
+                         :options="dragOptions2"
                          id="drag2">
                 <button class="btn-change" @click="changeIngredient" :key="key">
                   <img src="../assets/icones/change.svg" alt="change"/>
@@ -105,7 +105,7 @@
                          class="ingredient burger-proteines"
                          v-model="result.resultProteines"
                          :move="onMove"
-                         :options="dragOptions"
+                         :options="dragOptions2"
                          id="drag3">
                 <button class="btn-change" @click="changeIngredient" :key="key"><img src="../assets/icones/change.svg"
                                                                                      alt="change"/></button>
@@ -122,7 +122,7 @@
                          class="ingredient burger-condiment"
                          v-model="result.resultCondiment2"
                          :move="onMove"
-                         :options="dragOptions"
+                         :options="dragOptions2"
                          id="drag4">
                 <button class="btn-change" @click="changeIngredient" :key="key"><img src="../assets/icones/change.svg"
                                                                                      alt="change"/></button>
@@ -139,7 +139,7 @@
                          class="ingredient burger-condiment"
                          v-model="result.resultCondiment3"
                          :move="onMove"
-                         :options="dragOptions"
+                         :options="dragOptions2"
                          id="drag5">
                 <button class="btn-change" @click="changeIngredient" :key="key">
                   <img src="../assets/icones/change.svg" alt="change"/>
@@ -158,7 +158,7 @@
                          class="ingredient drag1 burger-pain2"
                          v-model="result.resultPain"
                          :move="onMove"
-                         :options="dragOptions">
+                         :options="dragOptions2">
                 <transition-group name="no" class="img-group ctn-img-compose" tag="section">
                   <div class="list-group-item burger-pain2" v-for="element in result.resultPain" :key="element.src"
                        v-bind:style="{ 'background-image': 'url(' + element.src + ')' }"></div>
@@ -172,29 +172,12 @@
         </b-col>
       </b-row>
     </b-container>
-    <article class="disabled">
-      <img src="../assets/burger_creation/pains/pain_blanc.jpg" alt="">
-      <img src="../assets/burger_creation/pains/pain_complet.jpg" alt="">
-      <img src="../assets/burger_creation/pains/pain_sans_gluten.png" alt="">
-      <img src="../assets/burger_creation/pains/pain_cereale.jpg" alt="">
-
-      <img src="../assets/burger_creation/condiements/bacon.jpg" alt="">
-      <img src="../assets/burger_creation/condiements/cheese.jpg" alt="">
-      <img src="../assets/burger_creation/condiements/salade.jpg" alt="">
-      <img src="../assets/burger_creation/condiements/tomate.jpg" alt="">
-
-      <img src="../assets/burger_creation/proteines/boeuf.jpg" alt="">
-      <img src="../assets/burger_creation/proteines/poisson.jpg" alt="">
-      <img src="../assets/burger_creation/proteines/poulet.jpg" alt="">
-      <img src="../assets/burger_creation/proteines/soja.jpg" alt="">
-    </article>
   </section>
 </template>
 
 <script>
   import draggable from 'vuedraggable'
-  import Vuex from 'vuex'
-
+  import {mapGetters, mapActions} from 'vuex'
 
   export default {
     components: {
@@ -202,72 +185,6 @@
     },
     data() {
       return {
-        ingredients: {
-          pains: [{
-            type: 'pains',
-            key: '1',
-            name: 'Pain Blanc',
-            src: '/static/img/pain_blanc.3e60ac7.jpg',
-            fixed: false
-          }, {
-            type: 'pains',
-            name: 'Pain Complet',
-            src: '/static/img/pain_complet.540009d.jpg',
-            fixed: false
-          }, {
-            type: 'pains',
-            name: 'Pain Céréale',
-            src: '/static/img/pain_cereale.18daaed.jpg',
-            fixed: false
-          }, {
-            type: 'pains',
-            name: 'Pain Sans Gluten',
-            src: '/static/img/pain_sans_gluten.2efd099.png',
-            fixed: false
-          }],
-          condiments: [{
-            type: 'condiments',
-            name: 'Bacon',
-            src: '/static/img/bacon.13abb71.jpg',
-            fixed: false
-          }, {
-            type: 'condiments',
-            name: 'Fromage',
-            src: '/static/img/cheese.ef670cd.jpg',
-            fixed: false
-          }, {
-            type: 'condiments',
-            name: 'Salade',
-            src: '/static/img/salade.0731351.jpg',
-            fixed: false
-          }, {
-            type: 'condiments',
-            name: 'Tomate',
-            src: '/static/img/tomate.197c00b.jpg',
-            fixed: false
-          }],
-          proteines: [{
-            type: 'proteines',
-            name: 'Boeuf',
-            src: '/static/img/boeuf.c15a76a.jpg',
-            fixed: false
-          }, {
-            type: 'proteines',
-            name: 'Cabillaud pané',
-            src: '/static/img/poisson.3c730b7.jpg',
-            fixed: false
-          }, {
-            type: 'proteines',
-            name: 'Poulet Rotit',
-            src: '/static/img/poulet.4df1896.jpg',
-            fixed: false
-          }, {
-            type: 'proteines',
-            name: 'Steak de Soja',
-            src: '/static/img/soja.ade812d.jpg',
-            fixed: false
-          }]
-        },
         key: "key",
         result: {
           resultPain: [],
@@ -282,11 +199,16 @@
       }
     },
     methods: {
-      ...Vuex.mapActions([
+      ...mapActions([
         'addBurger'
       ]),
+      clone: function (ingredient) {
+        return {
+          ingredient: ingredient.loadedIngredient
+        }
+      },
       addBurgerClick() {
-       const payload = this.result
+        const payload = this.result
         this.addBurger(payload)
       },
       onMove({relatedContext, draggedContext}) {
@@ -304,6 +226,11 @@
           for (var i = 0; i < parentClearDiv.classList.length; i++) {
             if (parentClearDiv.classList[i] == "burger-pain") {
               this.result.resultPain = []
+              this.loadedIngredient.pains.forEach(function (pains) {
+                if (pains.fixed === true) {
+                  pains.fixed = false
+                }
+              })
               document.querySelectorAll(".drag1").forEach(function (ctn_bread) {
                 ctn_bread.classList.remove("ctn_ingredient_full")
               })
@@ -321,30 +248,13 @@
                 bread.classList.remove("disabled")
                 bread.classList.add("active")
               })
-              this.ingredients.pains = [{
-                type: 'pains',
-                key: '1',
-                name: 'Pain Blanc',
-                src: '/static/img/pain_blanc.3e60ac7.jpg',
-                fixed: false
-              }, {
-                type: 'pains',
-                name: 'Pain Complet',
-                src: '/static/img/pain_complet.540009d.jpg',
-                fixed: false
-              }, {
-                type: 'pains',
-                name: 'Pain Céréale',
-                src: '/static/img/pain_cereale.18daaed.jpg',
-                fixed: false
-              }, {
-                type: 'pains',
-                name: 'Pain Sans Gluten',
-                src: '/static/img/pain_sans_gluten.2efd099.png',
-                fixed: false
-              }]
             }
             if (parentClearDiv.classList[i] == "burger-condiment") {
+              this.loadedIngredient.condiments.forEach(function (condiments) {
+                if (condiments.fixed === true) {
+                  condiments.fixed = false
+                }
+              })
               if (parentClearDiv.getAttribute("id") == "drag2") {
                 this.result.resultCondiment1 = [];
                 document.querySelector("#drag2").classList.remove("ctn_ingredient_full")
@@ -369,30 +279,14 @@
                 bread.classList.remove("active")
                 bread.classList.add("disabled")
               })
-              this.ingredients.condiments = [{
-                type: 'condiments',
-                name: 'Bacon',
-                src: '/static/img/bacon.13abb71.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Fromage',
-                src: '/static/img/cheese.ef670cd.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Salade',
-                src: '/static/img/salade.0731351.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Tomate',
-                src: '/static/img/tomate.197c00b.jpg',
-                fixed: false
-              }]
             }
             if (parentClearDiv.classList[i] == "burger-proteines") {
               this.result.resultProteines = []
+              this.loadedIngredient.proteines.forEach(function (proteines) {
+                if (proteines.fixed === true) {
+                  proteines.fixed = false
+                }
+              })
               document.querySelector("#drag3").classList.remove("ctn_ingredient_full")
               ingredrientCondiment.forEach(function (condiment) {
                 condiment.classList.remove("active")
@@ -406,39 +300,31 @@
                 bread.classList.remove("active")
                 bread.classList.add("disabled")
               })
-              this.ingredients.proteines = [{
-                type: 'proteines',
-                name: 'Boeuf',
-                src: '/static/img/boeuf.c15a76a.jpg',
-                fixed: false
-              }, {
-                type: 'proteines',
-                name: 'Cabillaud pané',
-                src: '/static/img/poisson.3c730b7.jpg',
-                fixed: false
-              }, {
-                type: 'proteines',
-                name: 'Poulet Rotit',
-                src: '/static/img/poulet.4df1896.jpg',
-                fixed: false
-              }, {
-                type: 'proteines',
-                name: 'Steak de Soja',
-                src: '/static/img/soja.ade812d.jpg',
-                fixed: false
-              }]
             }
           }
         }
       }
     },
     computed: {
+      ...mapGetters([
+        'loadedIngredient'
+      ]),
       dragOptions() {
         return {
           animation: 0,
           group: 'description',
           disabled: !this.editable,
           ghostClass: 'ghost',
+          group: {name: 'ingredient', src: '', id: "", fixed: "", pull: 'clone'}
+        };
+      },
+      dragOptions2() {
+        return {
+          animation: 0,
+          group: 'description',
+          disabled: !this.editable,
+          ghostClass: 'ghost',
+          group: 'ingredient'
         };
       },
       listString() {
@@ -448,9 +334,6 @@
         return JSON.stringify(this.result.resultPain, null, 2);
       }
     },
-
-
-
     watch: {
       isDragging(newValue) {
         if (newValue) {
@@ -483,54 +366,12 @@
           if (this.result.resultCondiment1[0]) {
             if (this.result.resultCondiment1[0].type != "condiments") {
               document.querySelector("#drag2 section").innerHTML = ""
-              this.ingredients.pains = [{
-                type: 'pains',
-                key: '1',
-                name: 'Pain Blanc',
-                src: '/static/img/pain_blanc.3e60ac7.jpg',
-                fixed: false
-              }, {
-                type: 'pains',
-                name: 'Pain Complet',
-                src: '/static/img/pain_complet.540009d.jpg',
-                fixed: false
-              }, {
-                type: 'pains',
-                name: 'Pain Céréale',
-                src: '/static/img/pain_cereale.18daaed.jpg',
-                fixed: false
-              }, {
-                type: 'pains',
-                name: 'Pain Sans Gluten',
-                src: '/static/img/pain_sans_gluten.2efd099.png',
-                fixed: false
-              }]
             } else {
               ingredrientCondiment.forEach(function (condiment) {
                 condiment.classList.remove("active")
                 condiment.classList.add("disabled")
               })
-              this.ingredients.condiments = [{
-                type: 'condiments',
-                name: 'Bacon',
-                src: '/static/img/bacon.13abb71.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Fromage',
-                src: '/static/img/cheese.ef670cd.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Salade',
-                src: '/static/img/salade.0731351.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Tomate',
-                src: '/static/img/tomate.197c00b.jpg',
-                fixed: false
-              }]
+
               ingredrientProteine.forEach(function (proteines) {
                 proteines.classList.remove("disabled")
                 proteines.classList.add("active")
@@ -538,58 +379,18 @@
               document.querySelector("#drag2").classList.add("ctn_ingredient_full")
               document.querySelector("#drag3 p").style.color = "#312783"
             }
-            this.result.resultCondiment1[0].fixed = true
+            //this.result.resultCondiment1[0].fixed = true
           }
           if (this.result.resultProteines[0]) {
             if (this.result.resultProteines[0].type != "proteines") {
               document.querySelector("#drag3 section").innerHTML = ""
-              this.ingredients.proteines = [{
-                type: 'proteines',
-                name: 'Boeuf',
-                src: '/static/img/boeuf.c15a76a.jpg',
-                fixed: false
-              }, {
-                type: 'proteines',
-                name: 'Cabillaud pané',
-                src: '/static/img/poisson.3c730b7.jpg',
-                fixed: false
-              }, {
-                type: 'proteines',
-                name: 'Poulet Rotit',
-                src: '/static/img/poulet.4df1896.jpg',
-                fixed: false
-              }, {
-                type: 'proteines',
-                name: 'Steak de Soja',
-                src: '/static/img/soja.ade812d.jpg',
-                fixed: false
-              }]
+
             } else {
               ingredrientProteine.forEach(function (proteines) {
                 proteines.classList.remove("active")
                 proteines.classList.add("disabled")
               })
-              this.ingredients.condiments = [{
-                type: 'condiments',
-                name: 'Bacon',
-                src: '/static/img/bacon.13abb71.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Fromage',
-                src: '/static/img/cheese.ef670cd.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Salade',
-                src: '/static/img/salade.0731351.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Tomate',
-                src: '/static/img/tomate.197c00b.jpg',
-                fixed: false
-              }]
+
               ingredrientCondiment.forEach(function (condiment) {
                 condiment.classList.remove("disabled")
                 condiment.classList.add("active")
@@ -602,54 +403,13 @@
           if (this.result.resultCondiment2[0]) {
             if (this.result.resultCondiment2[0].type != "condiments") {
               document.querySelector("#drag4 section").innerHTML = ""
-              this.ingredients.condiments = [{
-                type: 'condiments',
-                name: 'Bacon',
-                src: '/static/img/bacon.13abb71.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Fromage',
-                src: '/static/img/cheese.ef670cd.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Salade',
-                src: '/static/img/salade.0731351.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Tomate',
-                src: '/static/img/tomate.197c00b.jpg',
-                fixed: false
-              }]
+
             } else {
               ingredrientCondiment.forEach(function (condiment) {
                 condiment.classList.remove("disabled")
                 condiment.classList.add("active")
               })
-              this.ingredients.condiments = [{
-                type: 'condiments',
-                name: 'Bacon',
-                src: '/static/img/bacon.13abb71.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Fromage',
-                src: '/static/img/cheese.ef670cd.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Salade',
-                src: '/static/img/salade.0731351.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Tomate',
-                src: '/static/img/tomate.197c00b.jpg',
-                fixed: false
-              }]
-              this.result.resultCondiment2[0].fixed = true
+              //this.result.resultCondiment2[0].fixed = true
             }
             document.querySelector("#drag4").classList.add("ctn_ingredient_full")
             document.querySelector("#drag5 p").style.color = "#312783"
@@ -657,54 +417,12 @@
           if (this.result.resultCondiment3[0]) {
             if (this.result.resultCondiment3[0].type != "condiments") {
               document.querySelector("#drag5 section").innerHTML = ""
-              this.ingredients.condiments = [{
-                type: 'condiments',
-                name: 'Bacon',
-                src: '/static/img/bacon.13abb71.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Fromage',
-                src: '/static/img/cheese.ef670cd.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Salade',
-                src: '/static/img/salade.0731351.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Tomate',
-                src: '/static/img/tomate.197c00b.jpg',
-                fixed: false
-              }]
             } else {
               ingredrientCondiment.forEach(function (condiment) {
                 condiment.classList.remove("disabled")
                 condiment.classList.add("active")
               })
-              this.ingredients.condiments = [{
-                type: 'condiments',
-                name: 'Bacon',
-                src: '/static/img/bacon.13abb71.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Fromage',
-                src: '/static/img/cheese.ef670cd.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Salade',
-                src: '/static/img/salade.0731351.jpg',
-                fixed: false
-              }, {
-                type: 'condiments',
-                name: 'Tomate',
-                src: '/static/img/tomate.197c00b.jpg',
-                fixed: false
-              }]
-              this.result.resultCondiment3[0].fixed = true
+              //this.result.resultCondiment3[0].fixed = true
               document.querySelector("#drag5").classList.add("ctn_ingredient_full")
             }
           }
@@ -842,7 +560,6 @@
   .burger-pain {
     height: 65px;
     border-radius: 60px 60px 20px 20px;
-
   }
 
   .burger-pain2 {
