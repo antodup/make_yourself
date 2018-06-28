@@ -88,7 +88,8 @@ const state = {
     resultCondiment2: [],
     resultCondiment3: [],
   },
-  headerChange: 'normal'
+  headerChange: 'normal',
+  modifyBurger: 'no'
 }
 
 const mutations = {
@@ -96,7 +97,15 @@ const mutations = {
     state.headerChange = payload
   },
   ADD_BURGER (state, payload){
+    /*state.resultBurger.resultPain = payload.resultPain
+    state.resultBurger.resultCondiment1 = payload.resultCondiment1
+    state.resultBurger.resultCondiment2 = payload.resultCondiment2
+    state.resultBurger.resultCondiment3 = payload.resultCondiment3
+    state.resultBurger.resultProteines = payload.resultProteines*/
     state.resultBurger = payload
+  },
+  MODIFY_BURGER(state, payload) {
+    state.modifyBurger = payload
   }
 }
 
@@ -105,11 +114,11 @@ const actions = {
     commit('CHANGE_HEADER', payload)
   },
   addBurger ({commit}, payload) {
-    console.log(payload)
     commit('ADD_BURGER', payload)
+  },
+  modifyBurger({commit}, payload) {
+    commit('MODIFY_BURGER', payload)
   }
-
-
 }
 
 const getters = {
@@ -117,10 +126,13 @@ const getters = {
     return state.headerChange
   },
   loadedBurger(state) {
-    return state.result
+    return state.resultBurger
   },
   loadedIngredient(state) {
     return state.ingredients
+  },
+  loadedModify(state) {
+    return state.modifyBurger
   }
 }
 

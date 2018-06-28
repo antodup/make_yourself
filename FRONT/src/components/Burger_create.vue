@@ -164,8 +164,9 @@
                        v-bind:style="{ 'background-image': 'url(' + element.src + ')' }"></div>
                 </transition-group>
               </draggable>
-              <!--todo : a voir pour le chevron -->
-              <a @click="addBurgerClick" class="btn btn-perso">Valider ><i
+              <!--todo : a voir pour le chevron avec fontawesome
+              todo : CHANGER LE ROUTER LINK EN A ET TROUVER UN MOYEN DE FAIRE UN ROUTER LINK => VOIR CONV AVEC EVA-->
+              <a @click="addBurgerClick" class="btn-perso">Valider ><i
                 class="fal fa-chevron-right"></i></a>
             </section>
           </section>
@@ -208,8 +209,13 @@
         }
       },
       addBurgerClick() {
-        const payload = this.result
-        this.addBurger(payload)
+        if (this.result.resultPain.length == 0 || this.result.resultCondiment1.length == 0 || this.result.resultCondiment2.length == 0 || this.result.resultCondiment3.length == 0 || this.result.resultProteines.length == 0) {
+          alert("Vous devez impérativement remplir tous les ingrédients !")
+        } else {
+          const payload = this.result
+          this.addBurger(payload)
+          this.$router.push("/votre_burger");
+        }
       },
       onMove({relatedContext, draggedContext}) {
         const relatedElement = relatedContext.element;
@@ -305,9 +311,17 @@
         }
       }
     },
+    mounted () {
+      if(this.loadedModify == "yes") {
+        this.result = this.loadedBurger
+        console.log("ok")
+      }
+    },
     computed: {
       ...mapGetters([
-        'loadedIngredient'
+        'loadedIngredient',
+        'loadedBurger',
+        'loadedModify'
       ]),
       dragOptions() {
         return {
@@ -633,6 +647,10 @@
     bottom: -2%;
     padding: 10px 40px;
     font-size: 1.5em;
+    color: white !important;
+    &:hover {
+      color: white !important;;
+    }
   }
 
   .ctn-entete {

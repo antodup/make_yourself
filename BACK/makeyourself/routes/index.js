@@ -4,82 +4,76 @@ var bcrypt = require('bcrypt');
 
 var database = require('../services/database.js')
 
-
-/* GET home page. */
-router.get('/', function (req, res, next) {
-    res.render('index')
-
-    /*database.sendQuery('SELECT * FROM ...', function (err, results) {
-        if(err) {
-
-        } else {
-            res.json(results);
-        }
-    })
-
-    //if(req.session.page_views){
-    //    req.session.page_views++;
-    //    res.send("You visited this page " + req.session.page_views + " times");
-    //} else {
-    //    req.session.page_views = 1;
-    //    res.send("Welcome to this page for the first time");
-    //}*/
-});
-
-router.get('/post', function (req, res, next) {
-    res.render('post');
-});
-
-router.post('/post', function (req, res, next) {
-    res.json(req.body);
-});
-
 router.post('/test', function (req, res, next) {
     console.log(req.body);
 });
 
 router.post('/registration', function (req, res, next) {
     //CHECK MAIL
-     database.sendQuery('SELECT mail FROM `users`', function (err, results) {
-         if (err) {
-             console.log(err)
-         } else {
-             for (var i = 0; i < results.length; i++) {
-                 if (results[i].mail == req.body.mail) {
-                     console.log(req.body.mail)
-                     err = 'votre mail est déjà enregistré'
-                     res.json(err)
-                 } else {
-                     //HASHPASSWORD
-                     bcrypt.hashSync(req.body.password, 10, function (err, hash) {
-                         if (err) {
-                             return next(err);
-                         }
-                         console.log(req.body)
-                         req.body.password = hash;
-                         next();
-                         //INSERT IN DATABASE
-                         database.sendQuery('INSERT INTO `users` (mail, password, phone_number, lastname, firstname) VALUES("' + req.body.email + '", "' + req.body.password + '", "' + req.body.phone + '","' + req.body.lastname + '", "' + req.body.firstname + '")', function (err, results) {
-                             if (err) {
-                                 console.log(err)
-                             } else {
-                                 console.log(results)
-                                 res.json(results);
-                             }
-                         })
-                     })
-                 }
-             }
-         }
-     })
-    /*console.log(req.body)
-    database.sendQuery('SELECT * FROM `users` WHERE mail = ' + req.body.mail + '', function (err, results) {
+    database.sendQuery('SELECT * FROM `users` WHERE mail LIKE "' + req.body.email + '"', function (err, results) {
+        if (err) {
+            console.error(err)
+            return
+        }
+        if (results.length > 0) {
+            res.json('votre mail est déjà enregistré')
+            console.log(results)
+            return
+        }
+    })
+    //HASHPASSWORD
+    let pass = bcrypt.hashSync(req.body.password, 10)
+    console.log(req.body)
+    //INSERT IN DATABASE
+    database.sendQuery('INSERT INTO `users` (mail, password, phone_number, lastname, firstname) VALUES("' + req.body.email + '", "' + pass + '", "' + req.body.phone + '","' + req.body.lastname + '", "' + req.body.firstname + '")', function (err, results) {
         if (err) {
             console.log(err)
         } else {
             console.log(results)
+            res.json(results);
         }
-    })*/
+    })
+});
+
+router.post('/connexion', function (req, res, next) {
+    database.sendQuery('SELECT * FROM `users` WHERE mail LIKE "' + req.body.email + '"', function (err, results) {
+        var plainPassword = req.body.password;
+        var hashedPassword;
+        if (err) {
+            console.error(err)
+            res.json("Votre identifiant est incorrect");
+        } else {
+            if (results.length > 0) {
+                hashedPassword = results[0].password;
+                bcrypt.compare(plainPassword, hashedPassword, function (err, result) {
+                    console.log("ok2")
+                    if (result === true) {
+                        var sessData = req.session;
+                        sessData.someAttribute = results[0].id;
+                        console.log(sessData)
+                        res.json('ok');
+                    } else {
+                        res.json('Votre mot de passe est incorrect');
+                    }
+                })
+            }
+        }
+
+    })
+});
+
+router.get('/logout', function(req, res, next) {
+    if (req.session) {
+        console.log(req.session)
+        // delete session object
+        req.session.destroy(function(err) {
+            if(err) {
+                return next(err);
+            } else {
+                res.json('Vous etes bien deconnecté');
+            }
+        });
+    }
 });
 
 module.exports = router;

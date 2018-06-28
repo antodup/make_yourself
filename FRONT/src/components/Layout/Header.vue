@@ -62,13 +62,16 @@
           </b-col>
         </b-row>
       </b-container>
-      <section class="profile">
+      <section class="profile" style="display: none;">
         <ul>
           <li>
-            <router-link to="">Connexion</router-link>
+            <router-link to="connexion">Connexion</router-link>
           </li>
           <li>
-            <router-link to="">Inscription</router-link>
+            <router-link to="inscription">Inscription</router-link>
+          </li>
+          <li>
+            <a @click="destroy_account">Deconnexion</a>
           </li>
         </ul>
       </section>
@@ -115,6 +118,15 @@
           const payload = 'normal'
           this.changeHeader(payload)
         }
+      },
+      destroy_account() {
+        this.$http.get('http://localhost:3000/logout')
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       }
     }
   }

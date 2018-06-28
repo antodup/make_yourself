@@ -5,6 +5,7 @@ import Commander from '@/components/Commander'
 import Burger_create from '@/components/Burger_create'
 import Connexion from'@/components/Connexion'
 import Inscription from'@/components/Inscription'
+import ResultBurger from'@/components/ResultBurger'
 
 
 
@@ -37,6 +38,11 @@ export default new Router({
       path: '/inscription',
       name: 'Inscription',
       component: Inscription
+    },
+    {
+      path: '/votre_burger',
+      name: 'ResultBurger',
+      component: ResultBurger
     }
   ]
 })
