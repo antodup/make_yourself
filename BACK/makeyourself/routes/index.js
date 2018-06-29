@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
+var path = require('path')
 
 var database = require('../services/database.js')
 
+router.get('/', function (req, res, next) {
+    res.sendfile(path.resolve(__dirname + '/../public/index.html'))
+})
 router.post('/test', function (req, res, next) {
     console.log(req.body);
 });
