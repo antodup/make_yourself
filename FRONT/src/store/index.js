@@ -87,6 +87,13 @@ const state = {
     resultProteines: [],
     resultCondiment2: [],
     resultCondiment3: [],
+    price : 9
+  },
+  panier:{
+    burger: {},
+    boissons: [],
+    desserts: [],
+    price : 0,
   },
   headerChange: 'normal',
   modifyBurger: 'no'
@@ -97,12 +104,13 @@ const mutations = {
     state.headerChange = payload
   },
   ADD_BURGER (state, payload){
-    /*state.resultBurger.resultPain = payload.resultPain
+    state.resultBurger.resultPain = payload.resultPain
     state.resultBurger.resultCondiment1 = payload.resultCondiment1
     state.resultBurger.resultCondiment2 = payload.resultCondiment2
     state.resultBurger.resultCondiment3 = payload.resultCondiment3
-    state.resultBurger.resultProteines = payload.resultProteines*/
-    state.resultBurger = payload
+    state.resultBurger.resultProteines = payload.resultProteines
+    state.panier.burger = state.resultBurger
+    state.panier.price = state.resultBurger.price
   },
   MODIFY_BURGER(state, payload) {
     state.modifyBurger = payload
@@ -133,6 +141,9 @@ const getters = {
   },
   loadedModify(state) {
     return state.modifyBurger
+  },
+  loadedPanier(state){
+    return state.panier
   }
 }
 

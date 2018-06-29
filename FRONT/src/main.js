@@ -4,21 +4,19 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import axios from 'axios'
-import Swiper from 'swiper';
-
 import { store } from './store'
+import axios from 'axios'
 
+import BootstrapVue from 'bootstrap-vue'
+
+
+Vue.use(BootstrapVue);
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
-
-Vue.component('panierProfile', {
-  template: "<p>HELLO</p>"
-});
-
-/* eslint-disable no-new */
 new Vue({
   store,
   el: '#app',
@@ -26,12 +24,3 @@ new Vue({
   components: {App},
   template: '<App/>'
 })
-
-var mySwiper = new Swiper('.swiper-container', {
-  direction: 'vertical',
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  mousewheel: false,
-});

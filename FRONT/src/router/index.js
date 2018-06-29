@@ -6,6 +6,7 @@ import Burger_create from '@/components/Burger_create'
 import Connexion from'@/components/Connexion'
 import Inscription from'@/components/Inscription'
 import ResultBurger from'@/components/ResultBurger'
+import Panier from'@/components/Panier'
 
 
 
@@ -43,6 +44,11 @@ export default new Router({
       path: '/votre_burger',
       name: 'ResultBurger',
       component: ResultBurger
+    },
+    {
+      path: '/votre_panier',
+      name: 'Panier',
+      component: Panier
     }
   ]
 })

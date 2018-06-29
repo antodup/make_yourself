@@ -9,7 +9,6 @@
       <h1 class="title_create_burger">Et voilà votre burger !</h1>
     </section>
     <section class="ctn-burger">
-
       <article class="ingredient ingredient-pain" v-for="element in loadedBurger.resultPain">
         <img v-bind:src="element.src" alt="loadedBurger.resultPain.name">
       </article>
@@ -31,7 +30,7 @@
     </section>
     <section class="ctn-button">
       <a @click="modifyBurgerClick" class="btn-perso">< Précédent</a>
-      <router-link to="/" class="btn-perso">Suivant ></router-link>
+      <router-link to="/votre_panier" class="btn-perso">Suivant ></router-link>
     </section>
   </section>
 </template>
@@ -92,12 +91,10 @@
       border-radius: 60px 60px 20px 20px;
 
     }
-
     .ingredient-pain2 {
       height: 50px;
       border-radius: 20px 20px 60px 60px;
     }
-
     .ingredient-condiment {
       height: 30px;
       border-radius: 15px;
