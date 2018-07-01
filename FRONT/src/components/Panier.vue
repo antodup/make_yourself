@@ -54,22 +54,46 @@
         <b-col md="8">
           <b-tabs id="tab-boisson">
             <b-tab title="Boissons" active id="tab-boisson2">
-              <section class="ctn-tabs-panier ctn-tabs">
-                hello
+              <section class="ctn-tabs-panier ctn-tabs ctn-tabs-boisson">
+                <draggable class="list-group-item active"
+                           element="section" v-model="boissons"
+                           :options="dragOptions"
+                           :move="onMove"
+                           @start="isDragging=true"
+                           @end="isDragging=false">
+                  <transition-group type="transition" :name="'flip-list'">
+                    <div v-for="element in boissons" :key="element.name" class="">
+                      <img v-bind:src="element.src"/>
+                      <p class="">{{element.name}}</p>
+                    </div>
+                  </transition-group>
+                </draggable>
               </section>
             </b-tab>
             <b-tab title="Dessert">
-              <section class="ctn-tabs-panier ctn-tabs">
-                CAVA
+              <section class="ctn-tabs-panier ctn-tabs ctn-tabs-dessert">
+                <draggable class="list-group-item active"
+                           element="section" v-model="desserts"
+                           :options="dragOptions"
+                           :move="onMove"
+                           @start="isDragging=true"
+                           @end="isDragging=false">
+                  <transition-group type="transition" :name="'flip-list'">
+                    <div v-for="element in desserts" :key="element.name" class="">
+                      <img v-bind:src="element.src"/>
+                      <p class="">{{element.name}}</p>
+                    </div>
+                  </transition-group>
+                </draggable>
               </section>
             </b-tab>
           </b-tabs>
-          <p class="price_boisson_dessert">Votre boissons : 1.50€ / Dessert : 3.00€</p>
+          <p class="price_boisson_dessert">Votre boissons : 2.00€ / Dessert : 3.00€</p>
         </b-col>
       </b-row>
       <b-row>
         <b-col md="12">
-          <h2 class="title_panier">Choisissez votre boisson ou votre dessert
+          <h2 class="title_panier">Choisissez votre boisson et/ou votre dessert
             en glissant chacun des élements dans le panier</h2>
           <section class="ctn-bloc-panier ctn-tabs-panier">
             <section class="title_panier_bloc">
@@ -100,10 +124,47 @@
                   <img v-bind:src="element.src" alt="loadedBurger.resultPain.name">
                 </article>
               </section>
+              <span class="plus">+</span>
+              <section class="ctn-result-boisson">
+                <span class="text-result" id="txt-boisson">Boisson</span>
+                <button class="btn-change" @click="change"></button>
+                <draggable class="list-group-item active"
+                           element="section" v-model="resultBoissons"
+                           :options="dragOptions2"
+                           :move="onMove"
+                           @start="isDragging=true"
+                           @end="isDragging=false">
+                  <transition-group type="transition" :name="'flip-list'">
+                    <div v-for="element in resultBoissons" :key="key" class="">
+                      <img v-bind:src="element.src"/>
+                      <p class="">{{element.name}}</p>
+                    </div>
+                  </transition-group>
+                </draggable>
+              </section>
+              <span class="plus">+</span>
+              <section class="ctn-result-dessert">
+                <span class="text-result" id="txt-dessert">Dessert</span>
+                <button class="btn-change" @click="change"></button>
+                <draggable class="list-group-item active"
+                           element="section" v-model="resultDesserts"
+                           :options="dragOptions2"
+                           :move="onMove"
+                           @start="isDragging=true"
+                           @end="isDragging=false">
+                  <transition-group type="transition" :name="'flip-list'">
+                    <div v-for="element in resultDesserts" :key="key" class="">
+                      <img v-bind:src="element.src"/>
+                      <p class="">{{element.name}}</p>
+                    </div>
+                  </transition-group>
+                </draggable>
+              </section>
             </section>
             <section class="price_validate">
-              <div>{{loadedPanier.price}}€ TTC</div>
-              <router-link to="" tag="button" class="btn-perso">Valider</router-link>
+              <div>{{pricePanier}}€ TTC</div>
+              <button @click="addPanierClick" class="btn-perso">Valider</button>
+              <button @click="ignorePanierClick" class="btn-perso btn-ignorer">Ignorer ></button>
             </section>
           </section>
         </b-col>
@@ -116,21 +177,126 @@
   import draggable from 'vuedraggable'
   import {mapGetters, mapActions} from 'vuex'
 
+  let boissons = 0,
+    dessert = 0;
+
   export default {
+    components: {
+      draggable
+    },
     name: "Panier",
     data() {
       return {
-        tabIndex: 0
+        key: "key",
+        boissons: [],
+        desserts: [],
+        resultBoissons: [],
+        resultDesserts: [],
+        pricePanier: 0,
+        editable: true,
+        isDragging: false,
+        delayedDragging: false
       }
+    },
+    mounted() {
+      this.boissons = this.loadedBoissons
+      this.desserts = this.loadedDesserts
+      this.pricePanier = this.loadedPanier.price
     },
     computed: {
       ...mapGetters([
         'loadedBurger',
-        'loadedPanier'
-      ])
+        'loadedPanier',
+        'loadedBoissons',
+        'loadedDesserts',
+      ]),
+      dragOptions() {
+        return {
+          animation: 0,
+          group: 'description',
+          disabled: !this.editable,
+          ghostClass: 'ghost',
+        };
+      },
+      dragOptions2() {
+        return {
+          animation: 0,
+          group: 'description',
+          disabled: !this.editable,
+          ghostClass: 'ghost',
+        };
+      },
     },
-    methods: {}
+    methods: {
+      ...mapActions([
+        'addPanier'
+      ]),
+      addPanierClick() {
+        const payload = {
+          boissons: this.resultBoissons[0],
+          desserts: this.resultDesserts[0],
+          price: this.pricePanier
+        }
+        this.addPanier(payload)
+        //this.$router.push("/connexion");
+      },
+      ignorePanierClick() {
+        const payload = {
+          price: this.pricePanier
+        }
+        this.addPanier(payload)
+        //this.$router.push("/connexion");
+      },
+      onMove({relatedContext, draggedContext}) {
+        const relatedElement = relatedContext.element;
+        const draggedElement = draggedContext.element;
+        return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+      },
+      change(event) {
+        var Vue = this
+        console.log(this.pricePanier)
+        event.path[1].classList.forEach(function (ctn) {
+          if (ctn == "ctn-result-boisson" && boissons == 1) {
+            Vue.pricePanier -= Vue.resultBoissons[0].price
+            Vue.resultBoissons = []
+            document.querySelector(".ctn-result-boisson .list-group-item span").innerHTML = ""
+            Vue.boissons = Vue.loadedBoissons
+            boissons = 0;
+          }
+          if (ctn == "ctn-result-dessert" && dessert == 1) {
+            Vue.pricePanier -= Vue.resultDesserts[0].price
+            Vue.resultDesserts = []
+            document.querySelector(".ctn-result-dessert .list-group-item span").innerHTML = ""
+            Vue.desserts = Vue.loadedDesserts
+            dessert = 0;
+          }
+        })
+      },
+    },
+    watch: {
+      isDragging(newValue) {
+        if (newValue) {
+          this.delayedDragging = true
+          return
+        }
+        this.$nextTick(() => {
+          this.delayedDragging = false
+          if (this.resultBoissons[0] && boissons == 0) {
+            boissons = 1;
+            this.pricePanier += this.resultBoissons[0].price
+            document.querySelector("#txt-boisson").style.display = "none"
+          }
+          if (this.resultDesserts[0] && dessert == 0) {
+            this.pricePanier += this.resultDesserts[0].price
+            dessert = 1
+            document.querySelector("#txt-dessert").style.display = "none"
+
+          }
+        })
+      }
+    }
   }
+
 </script>
 
 <style lang="scss" scoped>
@@ -204,6 +370,8 @@
     font-weight: bold;
     color: white;
     text-align: left;
+    margin-bottom: 0;
+    font-size: 1.3em;
   }
 
   .ctn-tabs {
@@ -218,6 +386,44 @@
     background: radial-gradient(ellipse at center, #fff5de 0%, #ffe6aa 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5de', endColorstr='#ffe6aa', GradientType=1);
     box-shadow: 0 1px 20px #00000021;
+    .list-group-item {
+      background-color: transparent;
+      height: 100%;
+      border: none;
+
+      span {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        div {
+          width: 20%;
+          height: 100%;
+          color: $blue;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          p {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+    }
+  }
+
+  .ctn-tabs-boisson {
+    img {
+      height: 90%;
+      margin-bottom: 3px;
+    }
+  }
+
+  .ctn-tabs-dessert {
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
 
   .ctn-bloc-panier {
@@ -250,6 +456,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 10px;
+      height: 52%;
       .ctn-burger {
         width: 11%;
         .ingredient {
@@ -273,8 +481,49 @@
     }
   }
 
+  .ctn-result-dessert,
+  .ctn-result-boisson {
+    height: 100%;
+    width: 10%;
+    position: relative;
+    z-index: 1;
+    .list-group-item {
+      border: 3px dashed white;
+      padding: 0;
+      overflow: hidden;
+    }
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      div {
+        width: 100% !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          margin-bottom: 0 !important;
+          height: 80% !important;
+        }
+      }
+    }
+    .text-result {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: $blue;
+      font-weight: bold;
+      font-size: 1.5em;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    p {
+      display: none;
+    }
+  }
+
   .ctn-entete {
     position: relative;
+    top: 1%;
     .title_create_burger {
       font-size: 2em;
       font-weight: bold;
@@ -300,6 +549,7 @@
     color: $blue;
     font-size: 1.8em;
     margin: 20px auto;
+    margin-top: 10px;
   }
 
   .price_validate {
@@ -324,6 +574,48 @@
         border-color: $blue;
         color: white;
       }
+    }
+    .btn-ignorer {
+      position: absolute;
+      right: 33px;
+      border-color: #a9a6a6;
+      color: #a9a6a6;
+      &:hover {
+        background-color: #a9a6a6;
+        border-color: #a9a6a6;
+        color: white;
+      }
+    }
+  }
+
+  .plus {
+    font-weight: bold;
+    font-size: 4em;
+    margin: 0px 10px;
+    color: $blue;
+  }
+
+  .btn-change {
+    position: absolute;
+    right: -20%;
+    top: -6%;
+    border: solid 2px $blue;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 25px;
+    transition: background-color 0.5s;
+    z-index: 99999;
+    transform: rotate(-45deg);
+    background-image: url("../assets/icones/change_bleu.svg");
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    &:hover {
+      background-image: url("../assets/icones/change.svg");
+      background-color: $blue;
+      border-color: $blue;
+
     }
   }
 

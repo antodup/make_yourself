@@ -164,8 +164,7 @@
                        v-bind:style="{ 'background-image': 'url(' + element.src + ')' }"></div>
                 </transition-group>
               </draggable>
-              <!--todo : a voir pour le chevron avec fontawesome
-              todo : CHANGER LE ROUTER LINK EN A ET TROUVER UN MOYEN DE FAIRE UN ROUTER LINK => VOIR CONV AVEC EVA-->
+              <!--todo : a voir pour le chevron avec fontawesome-->
               <a @click="addBurgerClick" class="btn-perso">Valider ><i
                 class="fal fa-chevron-right"></i></a>
             </section>
@@ -537,8 +536,8 @@
       div {
         background-size: cover;
         width: 100%;
-        height: 100%;
-        left: 0;
+        height: 100% !important;
+        left: 0  !important;
       }
     }
   }
@@ -572,38 +571,38 @@
   }
 
   .burger-pain {
-    height: 65px;
-    border-radius: 60px 60px 20px 20px;
+    height: 65px !important;
+    border-radius: 60px 60px 20px 20px !important;
   }
 
   .burger-pain2 {
-    height: 50px;
-    border-radius: 20px 20px 60px 60px;
+    height: 50px !important;
+    border-radius: 20px 20px 60px 60px !important;
   }
 
   .burger-condiment {
-    height: 30px;
-    border-radius: 15px;
-    position: relative;
-    transform: translateX(0);
+    height: 30px !important;
+    border-radius: 15px !important;
+    position: relative !important;
+    transform: translateX(0) !important;
     &:nth-child(2) {
-      left: 36%;
+      left: 36%!important;
     }
 
     &:nth-child(4) {
-      left: 32%;
+      left: 32% !important;
     }
     &:nth-child(5) {
-      left: 27%;
+      left: 27% !important;
     }
   }
 
   .burger-proteines {
-    height: 50px;
-    border-radius: 25px;
-    position: relative;
-    transform: translateX(0);
-    left: 25%;
+    height: 50px !important;
+    border-radius: 25px !important;
+    position: relative !important;
+    transform: translateX(0) !important;;
+    left: 25% !important;
   }
 
   .active {

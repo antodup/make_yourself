@@ -79,6 +79,10 @@
     }
   }
 
+  body {
+    font-size: 12px !important;
+  }
+
   .btn-perso {
     width: auto;
     margin: 0 auto;

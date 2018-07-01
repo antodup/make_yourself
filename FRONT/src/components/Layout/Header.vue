@@ -111,13 +111,16 @@
         })
       },
       ...Vuex.mapActions([
-        'changeHeader'
+        'changeHeader',
+        'clearState'
       ]),
       changeHeaderHome() {
         if (this.path == "/") {
           const payload = 'normal'
           this.changeHeader(payload)
         }
+        const payload = 'clear'
+        this.clearState(payload)
       },
       destroy_account() {
         this.$http.get('http://localhost:3000/logout')
