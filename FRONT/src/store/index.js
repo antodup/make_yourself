@@ -165,6 +165,7 @@ const state = {
     price: 0,
   },
   headerChange: 'normal',
+  userSession : {},
   modifyBurger: 'no'
 }
 
@@ -207,6 +208,10 @@ const mutations = {
       state.resultBurger.resultProteines = []
       state.resultBurger.price = 9
     }
+  },
+  USER_SESSION(state, payload) {
+    state.userSession.id = payload.id
+    state.userSession.name = payload.name
   }
 }
 
@@ -225,6 +230,9 @@ const actions = {
   },
   clearState({commit}, payload) {
     commit('CLEAR_STATE', payload)
+  },
+  userSession({commit}, payload) {
+    commit('USER_SESSION', payload)
   }
 }
 
@@ -250,6 +258,9 @@ const getters = {
   loadedBoissons(state) {
     return state.boissons
   },
+  loadedSession(state) {
+    return state.userSession
+  }
 }
 
 export const store = new Vuex.Store({

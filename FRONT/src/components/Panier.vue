@@ -164,7 +164,7 @@
             <section class="price_validate">
               <div>{{pricePanier}}€ TTC</div>
               <button @click="addPanierClick" class="btn-perso">Valider</button>
-              <button @click="ignorePanierClick" class="btn-perso btn-ignorer">Ignorer ></button>
+              <button @click="ignorePanierClick" class="btn-perso btn-ignorer">Passez ></button>
             </section>
           </section>
         </b-col>
@@ -232,20 +232,30 @@
         'addPanier'
       ]),
       addPanierClick() {
+        if (this.resultBoissons.length == 0) {
+          this.resultBoissons = [{
+            id: null
+          }]
+        }
+        if (this.resultDesserts.length == 0) {
+          this.resultDesserts = [{
+            id: null
+          }]
+        }
         const payload = {
           boissons: this.resultBoissons[0],
           desserts: this.resultDesserts[0],
           price: this.pricePanier
         }
         this.addPanier(payload)
-        //this.$router.push("/connexion");
+        this.$router.push("/recap_panier");
       },
       ignorePanierClick() {
         const payload = {
           price: this.pricePanier
         }
         this.addPanier(payload)
-        //this.$router.push("/connexion");
+        this.$router.push("/recap_panier");
       },
       onMove({relatedContext, draggedContext}) {
         const relatedElement = relatedContext.element;

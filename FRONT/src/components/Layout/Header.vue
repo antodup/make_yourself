@@ -53,11 +53,7 @@
           <b-col md="1" v-if="loadedHeader == 'commander'" v-model="loadedHeader" class="button-commander">
             <section>
               <img src="../../assets/icones/profile.svg" alt="profile">
-              <p>Profile</p>
-            </section>
-            <section>
-              <img src="../../assets/icones/panier.svg" alt="panier">
-              <p>Panier</p>
+              <p v-if="loadedSession">{{loadedSession.name}}</p>
             </section>
           </b-col>
         </b-row>
@@ -78,10 +74,9 @@
     </nav>
   </header>
 </template>
-<script src="../JS%20file/main_front.js"></script>
-<script>
-  import Vuex from 'vuex'
 
+<script>
+  import {mapGetters, mapActions} from 'vuex'
 
   export default {
     name: "Header",
@@ -91,8 +86,9 @@
       }
     },
     computed: {
-      ...Vuex.mapGetters([
-        'loadedHeader'
+      ...mapGetters([
+        'loadedHeader',
+        'loadedSession'
       ])
     },
     mounted() {
@@ -110,9 +106,9 @@
           }
         })
       },
-      ...Vuex.mapActions([
+      ...mapActions([
         'changeHeader',
-        'clearState'
+        'clearState',
       ]),
       changeHeaderHome() {
         if (this.path == "/") {

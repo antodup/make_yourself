@@ -7,13 +7,12 @@ import Connexion from'@/components/Connexion'
 import Inscription from'@/components/Inscription'
 import ResultBurger from'@/components/ResultBurger'
 import Panier from'@/components/Panier'
-
-
+import RecapPanier from '@/components/RecapPanier'
+import Payment from'@/components/Payment'
 
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',
@@ -49,6 +48,16 @@ export default new Router({
       path: '/votre_panier',
       name: 'Panier',
       component: Panier
+    },
+    {
+      path: '/payment',
+      name: 'Payment',
+      component: Payment
+    },
+    {
+      path: '/recap_panier',
+      name: 'RecapPanier',
+      component: RecapPanier
     }
   ]
 })

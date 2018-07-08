@@ -146,4 +146,50 @@
   {
     opacity: 0;
   }
+
+  .ctn-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    h2 {
+      color: $white;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      input {
+        height: calc(70px - 20px);
+        padding: 10px;
+        background-color: transparent;
+        border: none;
+        border-bottom: $yellow solid 1px;
+        color: $white;
+        font-size: 1.3em;
+        font-family: 'Gotham-Medium';
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.8);
+          font-family: 'Gotham-Book';
+        }
+
+      }
+      textarea {
+        height: calc(200px - 20px);
+        padding: 10px;
+        background-color: transparent;
+        border: none;
+        border-bottom: $yellow solid 1px;
+        color: $white;
+        font-size: 1.3em;
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.8);
+        }
+        @media screen and (max-width: 767px) {
+          height: calc(130px - 20px)
+        }
+      }
+      button {
+        margin-top: 20px;
+      }
+    }
+  }
 </style>
