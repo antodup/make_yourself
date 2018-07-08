@@ -59,12 +59,12 @@
                 this.error = "password"
                 document.querySelector("#password").classList.add('error-input')
               }
-            }
+            } else {
               this.user = response.data
               const payload = this.user
               this.userSession(payload)
               this.$router.push('/payment')
-
+            }
           })
           .catch((error) => {
             console.log(error)

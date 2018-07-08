@@ -6,9 +6,11 @@ var stripe = require("stripe")("sk_test_UxPMlPUtw9DySsNJZ05t0NGY");
 
 var database = require('../services/database.js')
 var pricePanierAmount;
+var userSession;
 
 router.get('/', function (req, res, next) {
     res.sendfile(path.resolve(__dirname + '/../public/index.html'))
+    console.log(req.session)
 })
 router.post('/test', function (req, res, next) {
     console.log(req.body);
@@ -70,7 +72,6 @@ router.post('/connexion', function (req, res, next) {
                             } else {
                                 //PRIX BURGER
                                 console.log(req.body.panier)
-
                                 priceBurger = results[0].price
                                 db_priceBoissons()
 
@@ -148,25 +149,55 @@ router.get('/logout', function (req, res, next) {
 
 router.post('/payment', function (req, res, next) {
     let amount = pricePanierAmount;
+    console.log(req.session)
     stripe.customers.create({
-        source: req.body.payment.id
+        source: req.body.payment.id,
+        email : userSession.email
     })
         .then(customer => stripe.charges.create({
             amount: amount,
-            description: "Sample Charge",
+            description: "Commande Make YourSelf",
             currency: "eur",
-            customer: customer.id
+            customer: customer.id,
+            receipt_email: customer.email,
+            receipt_number: customer.phone
         }))
         .then((response) => {
             console.log(response.status)
             res.json(response)
             var dateStart = new Date
             var date = dateStart.getFullYear() + "-" + (dateStart.getMonth() + 1) + "-" + dateStart.getDate() + " " + dateStart.getHours() + ":" + dateStart.getMinutes() + ":" + dateStart.getSeconds()
-            console.log(date)
-            console.log(user)
-
             var idUserOrder = user.idUser
             if (response.status == 'succeeded') {
+                console.log(req.body)
+                database.sendQuery('SELECT * FROM `users` WHERE id LIKE "' + idUserOrder + '"', function (err, results) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(results)
+                        if (req.body.userInfo.firstname != results[0].firstname || req.body.userInfo.lastname != results[0].lastname || req.body.userInfo.email != results[0].email || req.body.userInfo.phone != results[0].phone_number) {
+                            console.log("ok")
+                            database.sendQuery('UPDATE `users` SET firstname = "' + req.body.userInfo.firstname + '", lastname = "' + req.body.userInfo.lastname + '", mail = "' + req.body.userInfo.email + '", phone_number = "' + req.body.userInfo.phone + '" WHERE id = "' + idUserOrder + '"', function (err, results) {
+                                if (err) {
+                                    console.error(err)
+                                } else {
+                                    console.log(results)
+                                }
+                            })
+                        }
+                        if (req.body.password != null) {
+                            let pass = bcrypt.hashSync(req.body.password, 10)
+                            //INSERT IN DATABASE
+                            database.sendQuery('UPDATE `users` SET password = "' + pass + '"', function (err, results) {
+                                if (err) {
+                                    console.log(err)
+                                } else {
+                                    console.log(results)
+                                }
+                            })
+                        }
+                    }
+                })
                 database.sendQuery('INSERT INTO `orders` (id_user, id_pain, id_condiment1, id_condiment2, id_condiment3, id_proteines, id_dessert, id_boisson, price, createdAt) VALUES(' + idUserOrder + ', ' + panier.burger.resultPain[0].id + ', ' + panier.burger.resultCondiment1[0].id + ', ' + panier.burger.resultCondiment2[0].id + ', ' + panier.burger.resultCondiment3[0].id + ', ' + panier.burger.resultProteines[0].id + ', ' + panier.desserts.id + ', ' + panier.boissons.id + ', ' + amount / 100 + ', "' + date + '")', function (err, results) {
                     if (err) {
                         console.error(err)
@@ -176,6 +207,24 @@ router.post('/payment', function (req, res, next) {
                 })
             }
         })
+})
+
+router.get('/info-user', function (req, res, next) {
+    database.sendQuery('SELECT * FROM `users` WHERE id LIKE "' + user.idUser + '"', function (err, results) {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(results)
+            userSession = {
+                firstname: results[0].firstname,
+                lastname: results[0].lastname,
+                email: results[0].mail,
+                phone: results[0].phone_number,
+                priceOrder: pricePanierAmount / 100
+            };
+            res.json(userSession)
+        }
+    })
 })
 
 module.exports = router;

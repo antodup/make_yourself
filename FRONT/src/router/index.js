@@ -9,6 +9,7 @@ import ResultBurger from'@/components/ResultBurger'
 import Panier from'@/components/Panier'
 import RecapPanier from '@/components/RecapPanier'
 import Payment from'@/components/Payment'
+import ThankYou from'@/components/ThankYou'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/recap_panier',
       name: 'RecapPanier',
       component: RecapPanier
+    },
+    {
+      path: '/thankYou',
+      name: 'ThankYou',
+      component: ThankYou
     }
   ]
 })
