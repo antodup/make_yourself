@@ -27,10 +27,10 @@
           <b-col md="5" class="ctn-left">
             <ul>
               <li>
-                <a href="https://make-yourself.tk/commander">Commander</a>
+                <a href="https://make-yourself.tk/#/commander">Commander</a>
               </li>
               <li>
-                <a href="https://make-yourself.tk/#about">A propos de nous</a>
+                <a href="https://make-yourself.tk/#/#about">A propos de nous</a>
               </li>
             </ul>
           </b-col>
@@ -43,17 +43,17 @@
           <b-col md="4" class="ctn-right">
             <ul>
               <li>
-                <a href="https://make-yourself.tk/#where">Où sommes nous ?</a>
+                <a href="https://make-yourself.tk/#/#where">Où sommes nous ?</a>
               </li>
               <li>
-                <a href="https://make-yourself.tk/#contact">Contactez nous !</a>
+                <a href="https://make-yourself.tk/#/#contact">Contactez nous !</a>
               </li>
             </ul>
           </b-col>
           <b-col md="1" v-if="loadedHeader == 'commander'" v-model="loadedHeader" class="button-commander">
             <section @click="destroy_account">
               <img src="../../assets/icones/logout.svg" alt="profile">
-              <p>Deconnexion</p>
+              <p>Déconnexion</p>
             </section>
           </b-col>
         </b-row>
