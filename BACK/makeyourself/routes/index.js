@@ -148,7 +148,6 @@ router.get('/logout', function (req, res, next) {
 
 router.post('/payment', function (req, res, next) {
     let amount = pricePanierAmount;
-    console.log(req.session)
     stripe.customers.create({
         source: req.body.payment.id,
         email: userSession.email

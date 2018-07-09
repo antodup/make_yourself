@@ -106,14 +106,18 @@
         this.clearState(payload)
       },
       destroy_account() {
-        this.$http.get('https://make-yourself.tk/logout')
-          .then((response) => {
-            console.log(response)
-            window.location.href='https://make-yourself.tk/';
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        if (confirm("Etes vous sur de vouloir vous déconnecter et donc d'annuler la commande ?")) {
+          this.$http.get('https://make-yourself.tk/logout')
+            .then((response) => {
+              console.log(response)
+              window.location.href='https://make-yourself.tk/';
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        } else {
+            return
+        }
       }
     }
   }
