@@ -4,7 +4,7 @@ var stripe = require("stripe")("sk_test_UxPMlPUtw9DySsNJZ05t0NGY");
 
 const endpointSecret = 'whsec_Mw1CUO7P8g5Oae5TGlcjbRtAVvbXVF1k';
 
-router.post('webhook', function (req, res) {
+router.post('/webhook', function (req, res) {
     let sig = req.headers["stripe-signature"];
 
     try {
