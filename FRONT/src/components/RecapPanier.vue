@@ -34,12 +34,12 @@
           </article>
         </section>
       </section>
-      <span v-if="loadedPanier.boissons" class="txt-recap">+</span>
-      <section v-if="loadedPanier.boissons" class="ctn-boissons">
+      <span v-if="loadedPanier.boissons.id != null" class="txt-recap">+</span>
+      <section v-if="loadedPanier.boissons.id != null" class="ctn-boissons">
         <img v-bind:src="loadedPanier.boissons.src" alt="">
       </section>
-      <span v-if="loadedPanier.desserts" class="txt-recap">+</span>
-      <section v-if="loadedPanier.desserts" class="ctn-desserts">
+      <span v-if="loadedPanier.desserts.id != null" class="txt-recap">+</span>
+      <section v-if="loadedPanier.desserts.id != null" class="ctn-desserts">
         <img v-bind:src="loadedPanier.desserts.src" alt="">
       </section>
       <span class="txt-recap">=</span>
@@ -160,6 +160,7 @@
     }
 
   }
+
   .btn-perso {
     margin: 0;
     border-color: $blue;
