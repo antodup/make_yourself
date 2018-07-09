@@ -33,43 +33,24 @@
   /*TYPO*/
   @font-face {
     font-family: "Gotham-light ";
-    src: url("fonts/Gotham-Light.otf") format("otf");
-  }
-
-  @font-face {
-    font-family: "Gotham-lightItalic ";
-    src: url("fonts/Gotham-lightItalic.otf") format("otf");
+    src: url("fonts/Gotham-Light.woff") format("woff");
   }
 
   @font-face {
     font-family: "Gotham-Medium";
-    src: url("fonts/Gotham-Medium.otf") format("otf");
+    src: url("fonts/Gotham-Medium.woff") format("woff");
   }
 
   @font-face {
     font-family: "Gotham-Book";
-    src: url("../src/fonts/Gotham-Book.otf") format("otf");
-  }
-
-  @font-face {
-    font-family: "Gotham-BookItalic";
-    src: url("fonts/Gotham-BookItalic.otf") format("otf");
-  }
-
-  @font-face {
-    font-family: "Gotham-MediumItalic";
-    src: url("fonts/Gotham-MediumItalic.otf") format("otf");
+    src: url("fonts/Gotham-Book.woff") format("woff");
   }
 
   @font-face {
     font-family: "Gotham-Bold";
-    src: url("fonts/Gotham-Bold.otf") format("otf");
+    src: url("fonts/Gotham-Bold.woff") format("woff");
   }
 
-  @font-face {
-    font-family: "Gotham-BoldItalic";
-    src: url("fonts/Gotham-BoldItalic.otf") format("otf");
-  }
 
   h2 {
     font-family: 'Gotham-Medium';
