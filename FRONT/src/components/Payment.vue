@@ -103,7 +103,7 @@
             return;
           } else {
             if (self.newpassword == self.newConfirmpassword) {
-              self.$http.post('http://localhost:3000/payment', {
+              self.$http.post('https://make-yourself.tk/payment', {
                 payment: result.token,
                 panier: self.loadedPanier,
                 userInfo: self.infoUser,
