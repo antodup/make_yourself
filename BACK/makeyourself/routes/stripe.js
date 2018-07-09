@@ -1,0 +1,21 @@
+var express = require('express');
+var router = express.Router();
+var stripe = require("stripe")("sk_test_UxPMlPUtw9DySsNJZ05t0NGY");
+
+router.post('webhook', function (req, res) {
+    let sig = req.headers["stripe-signature"];
+
+    try {
+        let event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+        console.log(event)
+    }
+    catch (err) {
+        res.status(400).end()
+    }
+
+    // Return a response
+    res.json({received: true});
+});
+
+module.exports = router;
+
