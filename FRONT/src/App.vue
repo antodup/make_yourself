@@ -32,7 +32,7 @@
 
   /*TYPO*/
   @font-face {
-    font-family: "Gotham-light ";
+    font-family: "Gotham-light";
     src: url("fonts/Gotham-Light.woff") format("woff");
   }
 

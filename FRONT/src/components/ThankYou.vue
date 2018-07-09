@@ -13,7 +13,7 @@
     name: "ThankYou",
     methods : {
       ...mapActions [(
-        'clearsya'
+        'clearstate'
       )]
     }
   }

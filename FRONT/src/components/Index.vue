@@ -73,7 +73,7 @@
     },
     methods: {
       testData() {
-        this.$http.post('http://localhost:3000/test', {
+        this.$http.post('https://make-yourself.tk/test', {
           lastname: this.lastname,
           firstname: this.firstname,
           email: this.email,

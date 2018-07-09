@@ -79,7 +79,7 @@
       var vue = this
       card = elements.create('card', {style: style});
       card.mount(vue.$refs.payment);
-      this.$http.get('http://localhost:3000/info-user')
+      this.$http.get('https://make-yourself.tk/info-user')
         .then((response) => {
           console.log(response)
           this.infoUser = response.data

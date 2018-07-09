@@ -43,7 +43,7 @@
         'userSession'
       ]),
       connexion_account() {
-        this.$http.post('http://localhost:3000/connexion', {
+        this.$http.post('https://make-yourself.tk/connexion', {
           email: this.email,
           password: this.password,
           panier: this.loadedPanier
