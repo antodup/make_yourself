@@ -27,10 +27,10 @@
           <b-col md="5" class="ctn-left">
             <ul>
               <li>
-                <a href="/#shop">Commander</a>
+                <a href="https://make-yourself.tk/commander">Commander</a>
               </li>
               <li>
-                <a href="/#about">A propos de nous</a>
+                <a href="https://make-yourself.tk/#about">A propos de nous</a>
               </li>
             </ul>
           </b-col>
@@ -43,34 +43,21 @@
           <b-col md="4" class="ctn-right">
             <ul>
               <li>
-                <a href="/#where">Où sommes nous ?</a>
+                <a href="https://make-yourself.tk/#where">Où sommes nous ?</a>
               </li>
               <li>
-                <a href="/#contact">Contactez nous !</a>
+                <a href="https://make-yourself.tk/#contact">Contactez nous !</a>
               </li>
             </ul>
           </b-col>
           <b-col md="1" v-if="loadedHeader == 'commander'" v-model="loadedHeader" class="button-commander">
-            <section>
-              <img src="../../assets/icones/profile.svg" alt="profile">
-              <p v-if="loadedSession">{{loadedSession.name}}</p>
+            <section @click="destroy_account">
+              <img src="../../assets/icones/logout.svg" alt="profile">
+              <p>Deconnexion</p>
             </section>
           </b-col>
         </b-row>
       </b-container>
-      <section class="profile" style="display: none;">
-        <ul>
-          <li>
-            <router-link to="connexion">Connexion</router-link>
-          </li>
-          <li>
-            <router-link to="inscription">Inscription</router-link>
-          </li>
-          <li>
-            <a @click="destroy_account">Deconnexion</a>
-          </li>
-        </ul>
-      </section>
     </nav>
   </header>
 </template>
@@ -119,9 +106,10 @@
         this.clearState(payload)
       },
       destroy_account() {
-        this.$http.get('http://localhost:3000/logout')
+        this.$http.get('https://make-yourself.tk/logout')
           .then((response) => {
             console.log(response)
+            window.location.href='https://make-yourself.tk/';
           })
           .catch((error) => {
             console.log(error)

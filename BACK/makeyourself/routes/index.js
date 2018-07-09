@@ -132,7 +132,6 @@ router.post('/connexion', function (req, res, next) {
     })
 })
 
-
 router.get('/logout', function (req, res, next) {
     if (req.session) {
         console.log(req.session)
@@ -152,7 +151,7 @@ router.post('/payment', function (req, res, next) {
     console.log(req.session)
     stripe.customers.create({
         source: req.body.payment.id,
-        email : userSession.email
+        email: userSession.email
     })
         .then(customer => stripe.charges.create({
             amount: amount,

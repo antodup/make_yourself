@@ -86,13 +86,6 @@
             console.log(error)
           })
       },
-      ...Vuex.mapActions([
-        'changeHeader'
-      ]),
-      changeHeaderHome() {
-        const payload = 'commander'
-        this.changeHeader(payload)
-      }
     }
   }
 </script>

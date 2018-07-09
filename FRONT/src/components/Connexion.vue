@@ -40,9 +40,12 @@
     },
     methods: {
       ...mapActions([
-        'userSession'
+        'userSession',
+        'changeHeader'
       ]),
       connexion_account() {
+        const payload = 'commander'
+        this.changeHeader(payload)
         this.$http.post('https://make-yourself.tk/connexion', {
           email: this.email,
           password: this.password,
