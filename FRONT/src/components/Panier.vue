@@ -9,7 +9,7 @@
     </section>
     <b-container>
       <b-row>
-        <b-col md="4">
+        <b-col lg="6" md="12">
           <h1>Votre Burger :<span> 9€</span></h1>
           <section class="ctn-burger">
             <section class="ingredients" v-for="element in loadedBurger.resultPain">
@@ -47,13 +47,15 @@
                 <img v-bind:src="element.src" alt="loadedBurger.resultPain.name">
               </article>
               <p>{{element.name}}</p>
-
             </section>
           </section>
-        </b-col>
-        <b-col md="8">
+          <h2 class="title-res">Choisissez votre boisson et/ou votre dessert
+            en glissant chacun des élements dans le panier</h2>
           <b-tabs id="tab-boisson">
+            <p class="price_boisson_dessert">Votre boissons : 2.00€ / Dessert : 3.00€</p>
+
             <b-tab title="Boissons" active id="tab-boisson2">
+
               <section class="ctn-tabs-panier ctn-tabs ctn-tabs-boisson">
                 <draggable class="list-group-item active"
                            element="section" v-model="boissons"
@@ -88,11 +90,8 @@
               </section>
             </b-tab>
           </b-tabs>
-          <p class="price_boisson_dessert">Votre boissons : 2.00€ / Dessert : 3.00€</p>
         </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="12">
+        <b-col lg="6" md="12" class="ctn-panier-right">
           <h2 class="title_panier">Choisissez votre boisson et/ou votre dessert
             en glissant chacun des élements dans le panier</h2>
           <section class="ctn-bloc-panier ctn-tabs-panier">
@@ -135,7 +134,7 @@
                            @start="isDragging=true"
                            @end="isDragging=false">
                   <transition-group type="transition" :name="'flip-list'">
-                    <div v-for="element in resultBoissons" :key="key" class="">
+                    <div v-for="element in resultBoissons" :key="element.name" ref="boissons" class="">
                       <img v-bind:src="element.src"/>
                       <p class="">{{element.name}}</p>
                     </div>
@@ -153,7 +152,7 @@
                            @start="isDragging=true"
                            @end="isDragging=false">
                   <transition-group type="transition" :name="'flip-list'">
-                    <div v-for="element in resultDesserts" :key="key" class="">
+                    <div v-for="element in resultDesserts" ref="dessert" :key="element.name" class="">
                       <img v-bind:src="element.src"/>
                       <p class="">{{element.name}}</p>
                     </div>
@@ -291,15 +290,42 @@
         }
         this.$nextTick(() => {
           this.delayedDragging = false
+          if (this.resultBoissons[1]) {
+            alert("Veuillez ne mettre qu'un seul article")
+            this.resultBoissons = []
+            this.boissons = this.loadedBoissons
+            document.querySelector("#txt-boisson").style.display = "block"
+
+          }
           if (this.resultBoissons[0] && boissons == 0) {
-            boissons = 1;
-            this.pricePanier += this.resultBoissons[0].price
-            document.querySelector("#txt-boisson").style.display = "none"
+            if (this.resultBoissons[0].type != 'boisson') {
+              this.resultBoissons.splice(0, 1)
+              this.desserts = this.loadedDesserts
+            } else {
+              boissons = 1;
+              this.pricePanier += this.resultBoissons[0].price
+              document.querySelector("#txt-boisson").style.display = "none"
+            }
+          }
+
+          if (this.resultDesserts[1]) {
+            alert("Veuillez ne mettre qu'un seul article")
+            this.resultDesserts = []
+            this.desserts = this.loadedDesserts
+            document.querySelector("#txt-dessert").style.display = "block"
+
           }
           if (this.resultDesserts[0] && dessert == 0) {
-            this.pricePanier += this.resultDesserts[0].price
-            dessert = 1
-            document.querySelector("#txt-dessert").style.display = "none"
+            if (this.resultDesserts[0].type != 'dessert') {
+              console.log("ok")
+              this.resultDesserts.splice(0, 1)
+              this.boissons = this.loadedBoissons
+            } else {
+              this.pricePanier += this.resultDesserts[0].price
+              dessert = 1
+              document.querySelector("#txt-dessert").style.display = "none"
+              console.log(this.resultDesserts[0])
+            }
 
           }
         })
@@ -317,10 +343,27 @@
     background-image: url("../assets/panier/desserts.jpg");
     background-position: center 70%;
     background-size: cover;
+    @media screen and (max-width: 767px) {
+      height: auto;
+    }
+  }
+
+  .title-res {
+    display: none;
+    color: $blue;
+    font-size: 1.8em;
+    margin: 20px auto;
+    margin-top: 40px;
+    @media screen and (max-width: 767px) {
+      display: block;
+    }
   }
 
   .ctn-burger {
     width: 100%;
+    @media screen and (max-width: 767px) {
+      order: 4;
+    }
     .ingredients {
       width: 100%;
       display: flex;
@@ -333,7 +376,7 @@
       }
     }
     .ingredient {
-      width: 40%;
+      width: 26%;
       overflow: hidden;
       margin-bottom: 3px;
       box-shadow: rgba(0, 0, 0, 0.2) 0 0 30px 1px;
@@ -370,6 +413,9 @@
     text-align: left;
     font-size: 2.5em;
     margin-bottom: 10px;
+    @media screen and (max-width: 767px) {
+      margin-top: 10px;
+    }
     span {
       color: white;
       font-family: 'Gotham-Medium';
@@ -382,10 +428,43 @@
     text-align: left;
     margin-bottom: 0;
     font-size: 1.3em;
+    position: absolute;
+    top: 4%;
+    right: 0;
+    @media screen and (max-width: 767px) {
+      top: auto;
+      bottom: -25px;
+    }
+  }
+
+  #tab-boisson {
+    margin-top: 30px;
+    position: relative;
+    .nav-item {
+      width: 50%;
+    }
   }
 
   .ctn-tabs {
     height: 145px;
+  }
+
+  .ctn-panier-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @media screen and (max-width: 767px) {
+      margin: 50px auto;
+      flex-direction: column;
+      .ctn-bloc-panier {
+        height: auto;
+      }
+      .ctn-global {
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+        height: auto !important;
+      }
+    }
   }
 
   .ctn-tabs-panier {
@@ -408,6 +487,11 @@
         div {
           width: 20%;
           height: 100%;
+          @media screen and (max-width: 767px) {
+            height: 75%;
+            width: 33%;
+          }
+
           color: $blue;
           display: flex;
           align-items: center;
@@ -469,7 +553,10 @@
       margin-bottom: 10px;
       height: 52%;
       .ctn-burger {
-        width: 11%;
+        width: 20%;
+        @media screen and (max-width: 767px) {
+          width: 38%;
+        }
         .ingredient {
           width: 100%;
           margin-bottom: 6px;
@@ -491,12 +578,25 @@
     }
   }
 
+  @media screen and (max-width: 767px) {
+    .ctn-result-boisson {
+      margin-right: 10px;
+      order: 1;
+    }
+  }
+
   .ctn-result-dessert,
   .ctn-result-boisson {
     height: 100%;
-    width: 10%;
+    width: 23%;
     position: relative;
     z-index: 1;
+    @media screen and (max-width: 767px) {
+      width: 36%;
+      height: 106px;
+      margin-bottom: 10px;
+    }
+
     .list-group-item {
       border: 3px dashed white;
       padding: 0;
@@ -534,6 +634,9 @@
   .ctn-entete {
     position: relative;
     top: 1%;
+    @media screen and (max-width: 767px) {
+      display: none;
+    }
     .title_create_burger {
       font-size: 2em;
       font-weight: bold;
@@ -559,13 +662,20 @@
     color: $blue;
     font-size: 1.8em;
     margin: 20px auto;
-    margin-top: 10px;
+    margin-top: 40px;
+    @media screen and (max-width: 767px) {
+      display: none;
+    }
   }
 
   .price_validate {
     display: flex;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: 767px) {
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
     div {
       font-size: 1.5em;
       color: white;
@@ -590,6 +700,11 @@
       right: 33px;
       border-color: #a9a6a6;
       color: #a9a6a6;
+      @media screen and (max-width: 767px) {
+        position: relative;
+        right: 0;
+        margin-top: 10px;
+      }
       &:hover {
         background-color: #a9a6a6;
         border-color: #a9a6a6;
@@ -603,6 +718,9 @@
     font-size: 4em;
     margin: 0px 10px;
     color: $blue;
+    @media screen and (max-width: 767px) {
+      display: none;
+    }
   }
 
   .btn-change {

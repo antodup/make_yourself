@@ -39,7 +39,7 @@
     methods: {
       sendRegister() {
         if (this.password == this.confPassword) {
-          this.$http.post('https://make-yourself.tk/registration', {
+          this.$http.post('http://localhost:3000/registration', {
             lastname: this.lastname,
             firstname: this.firstname,
             phone: this.phone,

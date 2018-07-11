@@ -226,6 +226,7 @@
         var ingredientBread = document.querySelectorAll(".ingredient-bread")
         var ingredrientCondiment = document.querySelectorAll(".ingredient-condiment")
         var ingredrientProteine = document.querySelectorAll(".ingredient-proteine")
+        var pIngredient = document.querySelectorAll(".ingredient p")
 
         if (this.result.resultPain[0] || this.result.resultCondiment1[0] || this.result.resultProteines[0] || this.result.resultCondiment2[0] || this.result.resultCondiment3[0]) {
           for (var i = 0; i < parentClearDiv.classList.length; i++) {
@@ -308,12 +309,29 @@
             }
           }
         }
+        if (this.result.resultPain.length == 0 && this.result.resultCondiment1.length == 0 && this.result.resultProteines.length == 0 && this.result.resultCondiment2.length == 0 && this.result.resultCondiment3.length == 0) {
+          console.log("ok")
+          ingredientBread.forEach(function (bread) {
+            bread.classList.remove("disabled")
+            bread.classList.add("active")
+          })
+          ingredrientCondiment.forEach(function (condiment) {
+            condiment.classList.remove("active")
+            condiment.classList.add("disabled")
+          })
+          ingredrientProteine.forEach(function (proteine) {
+            proteine.classList.remove("active")
+            proteine.classList.add("disabled")
+          })
+          for (var i = 0; i < pIngredient.length; i++) {
+            pIngredient[i].style.color = "white"
+          }
+        }
       }
     },
-    mounted () {
-      if(this.loadedModify == "yes") {
+    mounted() {
+      if (this.loadedModify == "yes") {
         this.result = this.loadedBurger
-        console.log("ok")
       }
     },
     computed: {
@@ -360,6 +378,7 @@
           var ingredrientCondiment = document.querySelectorAll(".ingredient-condiment")
           var ingredrientProteine = document.querySelectorAll(".ingredient-proteine")
           pIngredient.style.display = "none";
+
           if (this.result.resultPain[0]) {
             ingredientBread.forEach(function (bread) {
               bread.classList.remove("active")
@@ -374,7 +393,10 @@
               ctn_bread.classList.add("ctn_ingredient_full")
             })
             document.querySelector("#drag2 p").style.color = "#312783"
-            this.result.resultPain[0].fixed = true
+            // this.result.resultPain[0].fixed = true
+          }
+          if (this.result.resultPain[1]) {
+            this.result.resultPain.splice(-1, 1)
           }
           if (this.result.resultCondiment1[0]) {
             if (this.result.resultCondiment1[0].type != "condiments") {
@@ -394,6 +416,9 @@
             }
             //this.result.resultCondiment1[0].fixed = true
           }
+          if (this.result.resultCondiment1[1]) {
+            this.result.resultCondiment1.splice(-1, 1)
+          }
           if (this.result.resultProteines[0]) {
             if (this.result.resultProteines[0].type != "proteines") {
               document.querySelector("#drag3 section").innerHTML = ""
@@ -410,8 +435,11 @@
               })
               document.querySelector("#drag3").classList.add("ctn_ingredient_full")
               document.querySelector("#drag4 p").style.color = "#312783"
-              this.result.resultProteines[0].fixed = true
+              //this.result.resultProteines[0].fixed = true
             }
+          }
+          if (this.result.resultProteines[1]) {
+            this.result.resultProteines.splice(-1, 1)
           }
           if (this.result.resultCondiment2[0]) {
             if (this.result.resultCondiment2[0].type != "condiments") {
@@ -427,6 +455,11 @@
             document.querySelector("#drag4").classList.add("ctn_ingredient_full")
             document.querySelector("#drag5 p").style.color = "#312783"
           }
+
+          if (this.result.resultCondiment2[1]) {
+            this.result.resultCondiment2.splice(-1, 1)
+          }
+
           if (this.result.resultCondiment3[0]) {
             if (this.result.resultCondiment3[0].type != "condiments") {
               document.querySelector("#drag5 section").innerHTML = ""
@@ -435,9 +468,12 @@
                 condiment.classList.remove("disabled")
                 condiment.classList.add("active")
               })
-              //this.result.resultCondiment3[0].fixed = true
+              this.result.resultCondiment3[0].fixed = true
               document.querySelector("#drag5").classList.add("ctn_ingredient_full")
             }
+          }
+          if (this.result.resultCondiment3[1]) {
+            this.result.resultCondiment3.splice(-1, 1)
           }
         })
       }
@@ -453,6 +489,12 @@
     background-image: url("../assets/burger_creation/creation_burger_v2.png");
     background-position: center 70%;
     background-size: cover;
+    @media screen and (max-width: 767px) {
+      height: 100vh;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape){
+      height: auto;
+    }
     .height100 {
       height: 100%;
     }
@@ -479,11 +521,27 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    @media screen and (max-width: 767px) {
+      height: 150px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape){
+      height: auto;
+    }
     span {
       height: 100%;
+      @media screen and (max-width: 767px) {
+        display: flex;
+        align-items: center;
+      }
       div {
         background-size: cover;
         padding: 0;
+        @media screen and (max-width: 767px) {
+          margin-left: 10px;
+          &:first-child {
+            margin-left: 0;
+          }
+        }
       }
     }
     .description-ingredient {
@@ -516,7 +574,17 @@
       width: 100%;
       height: 120px;
     }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
+      span {
+        display: flex;
+        flex-direction: column;
+        height: 70vh;
+        justify-content: space-between;
+      }
+    }
   }
+
+
 
   .list-group-item i {
     cursor: pointer;
@@ -532,12 +600,19 @@
     width: 100%;
     top: 8%;
     position: relative;
-    section {
+    @media screen and (max-width: 767px) {
+      top: 5%;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      top: 20%;
+    }
+
+      section {
       div {
         background-size: cover;
         width: 100%;
         height: 100% !important;
-        left: 0  !important;
+        left: 0 !important;
       }
     }
   }
@@ -556,7 +631,15 @@
     position: relative;
     display: flex;
     align-items: center;
-    p {
+    @media screen and (max-width: 767px) {
+      width: 90%;
+      left: 10% !important;
+      transform: translateX(0);
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      width: 62%;
+    }
+      p {
       font-weight: bold;
       color: white;
       font-size: 1.4em;
@@ -586,14 +669,23 @@
     position: relative !important;
     transform: translateX(0) !important;
     &:nth-child(2) {
-      left: 36%!important;
+      left: 36% !important;
+      @media screen and (max-width: 767px) {
+        left: 10% !important;
+      }
     }
 
     &:nth-child(4) {
       left: 32% !important;
+      @media screen and (max-width: 767px) {
+        left: 10% !important;
+      }
     }
     &:nth-child(5) {
       left: 27% !important;
+      @media screen and (max-width: 767px) {
+        left: 10% !important;
+      }
     }
   }
 
@@ -603,6 +695,9 @@
     position: relative !important;
     transform: translateX(0) !important;;
     left: 25% !important;
+    @media screen and (max-width: 767px) {
+      left: 10% !important;
+    }
   }
 
   .active {
@@ -626,6 +721,10 @@
     background-color: transparent;
     border-radius: 25px;
     transition: background-color 0.5s;
+    @media screen and (max-width: 767px) {
+      left: -15%;
+      transform: rotate(90deg);
+    }
     img {
       width: 75%;
     }
@@ -647,6 +746,19 @@
     padding: 10px 40px;
     font-size: 1.5em;
     color: white !important;
+    @media screen and (max-width: 767px) {
+      right: 0;
+      left: 0;
+      bottom: 0;
+      position: relative;
+      top: 7px;
+      padding: 14px 40px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      position: relative;
+      right: 0;
+      top: 20px;
+    }
     &:hover {
       color: white !important;;
     }
@@ -663,11 +775,20 @@
       text-align: center;
       width: 51%;
       margin: 0 auto;
+      @media screen and (max-width: 767px) {
+        display: none;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+        width: 85%;
+      }
     }
     article {
       margin-bottom: 15px;
       font-size: 1.2em;
       color: white;
+      @media screen and (max-width: 767px) {
+        display: none;
+      }
       a {
         color: white;
       }

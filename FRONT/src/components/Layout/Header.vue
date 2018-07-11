@@ -1,61 +1,51 @@
 <template>
   <header>
+    <div @click="menu_burger" class="burger-menu">
+      <div class="burger"></div>
+      <div class="burger"></div>
+      <div class="burger"></div>
+    </div>
+    <h1 class="ctn-logo-res">
+      <router-link to="/" v-on:click.native="changeHeaderHome">
+        <img src="../../assets/logo.svg" alt="Make YourSelf">
+      </router-link>
+    </h1>
     <nav>
-      <section id="menu-burger" @click="MenuBurger">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </section>
-      <section id="ctn-burger" class="div-burger">
-        <ul>
-          <li>
-            <a href="/#shop">Commander</a>
-          </li>
-          <li>
-            <a href="/#about">A propos de nous</a>
-          </li>
-          <li>
-            <a href="/#where">Où sommes nous ?</a>
-          </li>
-          <li>
-            <a href="/#contact">Contactez nous !</a>
-          </li>
-        </ul>
-      </section>
       <b-container>
         <b-row>
           <b-col md="5" class="ctn-left">
             <ul>
               <li>
-                <a href="https://make-yourself.tk/#/commander">Commander</a>
+                <router-link to="/commander">Commander</router-link>
               </li>
               <li>
-                <a href="https://make-yourself.tk/#about">A propos de nous</a>
+                <a href="#about">A propos de nous</a>
               </li>
             </ul>
           </b-col>
-          <b-col md="2">
+          <b-col md="2" class="ctn-logo">
             <h1>
-              <router-link to="/" v-on:click.native="changeHeaderHome"><img src="../../assets/logo.svg"
-                                                                            alt="Make YourSelf"></router-link>
+              <router-link to="/" v-on:click.native="changeHeaderHome">
+                <img src="../../assets/logo.svg" alt="Make YourSelf">
+              </router-link>
             </h1>
           </b-col>
-          <b-col md="4" class="ctn-right">
+          <b-col md="5" class="ctn-right">
             <ul>
               <li>
-                <a href="https://make-yourself.tk/#where">Où sommes nous ?</a>
+                <a href="#where" >Où sommes nous ?</a>
               </li>
               <li>
-                <a href="https://make-yourself.tk/#contact">Contactez nous !</a>
+                <a href="#contact" >Contactez nous !</a>
               </li>
             </ul>
           </b-col>
-          <b-col md="1" v-if="loadedHeader == 'commander'" v-model="loadedHeader" class="button-commander">
+          <!--<b-col md="1" v-if="loadedHeader == 'commander'" v-model="loadedHeader" class="button-commander">
             <section @click="destroy_account">
               <img src="../../assets/icones/logout.svg" alt="profile">
               <p>Déconnexion</p>
             </section>
-          </b-col>
+          </b-col>-->
         </b-row>
       </b-container>
     </nav>
@@ -82,21 +72,15 @@
       this.loadedHeader
     },
     methods: {
-      /* todo : Faire la partie JS du responsive : Menu Burger */
-      MenuBurger() {
-        var menuBurger = document.querySelector("#menu-burger");
-        menuBurger.addEventListener("click", function () {
-          document.querySelector("#menu-burger").classList.toggle("change")
-          document.querySelector("#ctn-burger").style.display = "block"
-          if (menuBurger.classList[0] != "change") {
-            document.querySelector("#ctn-burger").style.display = "none"
-          }
-        })
-      },
       ...mapActions([
         'changeHeader',
         'clearState',
       ]),
+      menu_burger(event) {
+        event.path[1].classList.toggle("changeBurger");
+        document.querySelector("nav").classList.toggle("content_burger")
+        document.querySelector("body").classList.toggle("body-res")
+      },
       changeHeaderHome() {
         if (this.path == "/") {
           const payload = 'normal'
@@ -110,13 +94,13 @@
           this.$http.get('https://make-yourself.tk/logout')
             .then((response) => {
               console.log(response)
-              window.location.href='https://make-yourself.tk/';
+              window.location.href = 'https://make-yourself.tk/';
             })
             .catch((error) => {
               console.log(error)
             })
         } else {
-            return
+          return
         }
       }
     }
@@ -125,43 +109,84 @@
 
 <style lang="scss" scoped>
   @import "../../variables";
+
   /*Responsive*/
-  .bar1, .bar2, .bar3 {
-    width: 35px;
-    height: 2px;
-    background-color: #333;
-    margin: 9px 0;
-    transition: 0.4s;
-    background-color: $yellow;
+
+  .changeBurger .burger:first-child {
+    -webkit-transform: rotate(-45deg) translate(-9px, 14px);
+    transform: rotate(-45deg) translate(-9px, 14px);
   }
 
-  .change .bar1 {
-    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
-    transform: rotate(-45deg) translate(-9px, 6px);
-  }
-
-  .change .bar2 {
+  .changeBurger .burger:nth-child(2) {
     opacity: 0;
   }
 
-  .change .bar3 {
-    -webkit-transform: rotate(45deg) translate(-8px, -8px);
-    transform: rotate(45deg) translate(-8px, -8px);
+  .changeBurger .burger:last-child {
+    -webkit-transform: rotate(45deg) translate(-12px, -17px);
+    transform: rotate(45deg) translate(-12px, -17px);
+  }
+
+  .content_burger {
+    opacity: 1;
+    display: flex;
+  }
+
+  .burger-menu {
+    display: none;
+    @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;}
+    width: 55px;
+    height: 40px;
+    .burger {
+      width: 100%;
+      height: 2px;
+      background-color: $yellow;
+      transition: 0.3s;
+    }
   }
 
   /*Desktop*/
   header {
     padding: 10px;
     box-shadow: 0 1px 20px #5f490a85;
-    position: fixed;
+    position: fixed !important;
     width: 100vw;
     background-color: $white;
     z-index: 99999;
     top: 0;
+    position: relative;
+    @media screen and (max-width: 767px) {
+      height: 90px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ctn-logo-res {
+      display: none;
+      @media screen and (max-width: 767px) {
+        display: block;
+        margin-bottom: 0;
+        width: 250px;
+        img {
+          width: 155px;
+        }
+      }
+    }
     nav {
       @media screen and (max-width: 767px) {
-        display: flex;
+        display: none;
         align-items: center;
+        position: absolute;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        height: calc(100vh - 90px);
+        top: 90px;
+        background-color: $blue;
+        opacity: 0;
+        transition: opacity 0.2s;
       }
     }
     #menu-burger {
@@ -176,7 +201,15 @@
       display: flex;
       align-items: center;
       @media screen and (max-width: 767px) {
-        width: auto
+        .row {
+          width: auto;
+          height: auto;
+        }
+        width: 100%;
+        height: 100%;
+        .ctn-logo {
+          display: none;
+        }
       }
       h1 {
         width: 100%;
@@ -190,30 +223,19 @@
         }
       }
     }
-
-    .div-burger {
-      width: 0vw;
-      display: none;
-      @media screen and (max-width: 767px) {
-        position: absolute;
-        top: 90px;
-        width: 100vw;
-        left: 0;
-        height: calc(100vh - 90px);
-        background-color: $blue;
-      }
-
-    }
     .ctn-left {
       text-align: right;
       @media screen and (max-width: 767px) {
-        display: none;
+        text-align: center;
+        height: auto;
       }
     }
     .ctn-right {
       text-align: left;
       @media screen and (max-width: 767px) {
-        display: none;
+        text-align: center;
+        height: auto;
+
       }
     }
     ul {
@@ -224,6 +246,10 @@
         display: inline-block;
         margin-right: 15px;
         &:last-child {
+          margin-right: 0;
+        }
+        @media screen and (max-width: 767px) {
+          display: block;
           margin-right: 0;
         }
         a {
@@ -240,10 +266,14 @@
             text-decoration: none;
           }
           @media screen and (max-width: 767px) {
-            display: none;
+            color: white;
+            font-size: 2em;
+            line-height: 4em;
+          }
+          @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+            font-size: 1.1em;
           }
         }
-
       }
     }
     .button-commander {

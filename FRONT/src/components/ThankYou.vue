@@ -11,7 +11,7 @@
 
   export default {
     name: "ThankYou",
-    methods : {
+    methods: {
       ...mapActions [(
         'clearstate'
       )]
@@ -33,14 +33,26 @@
     background-image: url("../assets/payment.png");
     background-size: 100%;
     background-position: center;
+    @media screen and (max-width: 767px) {
+      background-size: cover;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      background-size: cover
+    }
     h1 {
       font-family: 'Gotham-Bold';
       color: $blue;
+      @media screen and (max-width: 767px) {
+        font-size: 2em;
+      }
     }
     p {
       width: 40%;
       margin: 20px auto;
       font-size: 1.5em;
+      @media screen and (max-width: 767px) {
+        width: 80%;
+      }
     }
   }
 

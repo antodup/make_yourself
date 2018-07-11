@@ -37,6 +37,12 @@
     background-image: url("../assets/commander/background-burger.jpg");
     background-size: 120%;
     background-position: right top;
+    @media screen and (max-width: 767px){
+      background-size: cover;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
+      background-size: cover;
+    }
     h3 {
       color: $blue;
       font-size: 1.5em;
@@ -46,6 +52,9 @@
       margin-bottom: 15px;
       color: $white;
       font-size: 2.3em;
+      @media screen and (max-width: 767px){
+        display: none;
+      }
     }
 
     .picto-commerce {
@@ -54,11 +63,22 @@
       justify-content: space-around;
       align-items: center;
       padding: 0 180px;
-      margin: 50px 0px;
+      margin: 25px 0px;
+      @media screen and (max-width: 767px){
+        padding: 0;
+        flex-direction: column;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
+        padding: 0;
+      }
       span {
         font-size: 2.5em;
         color: $white;
         font-family: 'gotham-medium';
+        @media screen and (max-width: 767px){
+          font-size: 2em;
+          margin: 5px 0px;
+        }
       }
       img:nth-child(1) {
         width: 20%;
@@ -66,7 +86,12 @@
       img:nth-child(3) {
         bottom: 14px;
         position: relative;
+        height: 140px;
+        @media screen and (max-width: 767px){
+          height: 80px;
+        }
       }
+
       img:nth-child(5) {
         width: 15%;
       }

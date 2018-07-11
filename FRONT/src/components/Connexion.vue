@@ -46,7 +46,7 @@
       connexion_account() {
         const payload = 'commander'
         this.changeHeader(payload)
-        this.$http.post('https://make-yourself.tk/connexion', {
+        this.$http.post('http://localhost:3000/connexion', {
           email: this.email,
           password: this.password,
           panier: this.loadedPanier
@@ -85,9 +85,18 @@
     background-image: url("../assets/commander/background-burger.jpg");
     background-size: 120%;
     background-position: right top;
+    @media screen and (max-width: 767px) {
+      background-size: cover;
+    }
+      @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      background-size: cover;
+    }
     h1 {
       color: $blue;
       font-family: 'Gotham-Bold';
+      @media screen and (max-width: 767px){
+        font-size: 3em;
+      }
     }
     form {
       width: 40%;
@@ -95,6 +104,15 @@
       left: 50%;
       position: relative;
       transform: translateY(-50%) translateX(-50%);
+      @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+        width: 80%;
+      }
+      @media screen and (max-width: 767px){
+        width: auto;
+        top: 0;
+        left: 0;
+        transform: translateY(0%) translateX(0%);
+      }
       input {
         border-bottom-color: $blue;
         margin-bottom: 20px;

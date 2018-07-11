@@ -77,6 +77,12 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    @media screen and (max-width: 767px){
+      background-size: cover;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      background-size: cover;
+    }
     h1 {
       color: white;
       font-family: 'Gotham-Bold';
@@ -97,8 +103,15 @@
     align-items: center;
     justify-content: center;
     margin: 50px 0px;
+    @media screen and (max-width: 767px){
+      flex-wrap: wrap;
+      margin: 20px 0px;
+    }
     .ctn-burger {
-      width: 12%;
+      width: 16%;
+      @media screen and (max-width: 767px){
+        width: 41%;
+      }
       .ingredient {
         width: 100%;
         overflow: hidden;
@@ -132,6 +145,9 @@
     }
     .ctn-desserts {
       width: 20%;
+      @media screen and (max-width: 767px){
+        width: 40%;
+      }
       img {
         width: 100%;
       }

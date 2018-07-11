@@ -3,7 +3,7 @@
     <section id="shop" class="shop section-home">
       <b-col md="12">
         <h2>Vos envies, Vos idées ! <br> Venez commander votre burger personnalisable !</h2>
-        <router-link to="/commander" v-on:click.native="changeHeaderHome" class="btn-perso btn-yellow">
+        <router-link to="/commander" class="btn-perso btn-yellow">
           Commander !
         </router-link>
       </b-col>
@@ -73,7 +73,7 @@
     },
     methods: {
       testData() {
-        this.$http.post('https://make-yourself.tk/test', {
+        this.$http.post('http://localhost:3000/test', {
           lastname: this.lastname,
           firstname: this.firstname,
           email: this.email,
@@ -108,7 +108,7 @@
     align-items: center;
     justify-content: center;
     top: 90px;
-    div {
+      div {
       background-color: rgba(0, 0, 0, 0.54);
       padding: 20px;
       h2 {

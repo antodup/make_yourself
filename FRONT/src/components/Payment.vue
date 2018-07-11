@@ -79,7 +79,7 @@
       var vue = this
       card = elements.create('card', {style: style});
       card.mount(vue.$refs.payment);
-      this.$http.get('https://make-yourself.tk/info-user')
+      this.$http.get('http://localhost:3000/info-user')
         .then((response) => {
           console.log(response)
           this.infoUser = response.data
@@ -103,7 +103,7 @@
             return;
           } else {
             if (self.newpassword == self.newConfirmpassword) {
-              self.$http.post('https://make-yourself.tk/payment', {
+              self.$http.post('http://localhost:3000/payment', {
                 payment: result.token,
                 panier: self.loadedPanier,
                 userInfo: self.infoUser,
@@ -135,6 +135,10 @@
     background-image: url("../assets/payment.png");
     background-size: 100%;
     background-position: center;
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      background-size: cover;
+    }
+
     .container {
       height: 100%;
       padding: 20px;
@@ -147,6 +151,9 @@
       color: $blue;
       font-weight: bold;
       margin-bottom: 0;
+      @media screen and (max-width: 767px) {
+        font-size: 2em;
+      }
       span {
         color: white;
       }
@@ -161,6 +168,12 @@
   .ctn-form {
     width: 50%;
     margin: 0 auto;
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      width: 80%;
+    }
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
     .btn-perso {
       margin: 0;
       border-color: $blue;

@@ -5,28 +5,39 @@
       <router-view/>
     </transition>
     <Footer/>
+    <section id="landscape" class="disabled-landscape">
+      <p>Veuillez retourner puis recharger la page de votre téléphone pour une meilleure lisibilité ! ;-)</p>
+    </section>
   </div>
 </template>
 
 <script>
   import Header from './components/Layout/Header'
   import Footer from './components/Layout/Footer'
+  import VueAnchorRouterLink from 'vue-anchor-router-link'
+
 
   export default {
     components: {
       Header,
-      Footer
+      Footer,
+      VueAnchorRouterLink
+    },
+    mounted() {
+        if (window.orientation == 90) {
+          document.querySelector("#landscape").classList.remove("disabled-landscape")
+          document.querySelector("#landscape").classList.add("active-landscape")
+        } else {
+            document.querySelector("#landscape").classList.remove("active-landscape")
+            document.querySelector("#landscape").classList.add("disabled-landscape")
+        }
+
+
     }
   }
 </script>
 
 <style lang="scss">
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
   /*COLOR*/
   @import "variables";
 
@@ -51,12 +62,45 @@
     src: url("fonts/Gotham-Bold.woff") format("woff");
   }
 
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .disabled-landscape {
+    display: none;
+  }
+
+  .active-landscape {
+    display: block;
+    position: absolute;
+    background-color: $yellow;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    p {
+      font-size: 2em;
+
+      color: white;
+    }
+    img {
+      width: 30%;
+    }
+  }
 
   h2 {
     font-family: 'Gotham-Medium';
     margin-bottom: 0;
     @media screen and (max-width: 767px) {
-      font-size: 2.5em;
+      font-size: 2.3em;
     }
   }
 
@@ -105,9 +149,20 @@
     font-size: 12px;
   }
 
+  .body-res {
+    height: 100vh;
+    overflow: hidden;
+  }
+
   .ctn-general {
     top: 90px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+
   }
 
   #app {

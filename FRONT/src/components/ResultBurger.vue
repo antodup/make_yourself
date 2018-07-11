@@ -66,8 +66,17 @@
   .ctn-result {
     height: calc(100vh - 140px);
     background-image: url("../assets/burger_creation/creation_burger_v2.png");
-    background-position: center 70%;
+    background-position: center 55%;
     background-size: cover;
+    @media screen and (max-width: 767px){
+      background-position: center -7%;
+      background-size: 266%;
+      background-repeat: no-repeat;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+      background-position: center 53%;
+      background-size: 134%;
+    }
   }
 
   .ctn-burger {
@@ -75,6 +84,16 @@
     margin: 0 auto;
     padding-top: 41px;
     height: auto;
+    @media screen and (max-width: 767px){
+      width: 85%;
+      padding-top: 57px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      width: 50%;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+      width: 40%;
+    }
     .ingredient {
       width: 100%;
       overflow: hidden;
@@ -108,19 +127,24 @@
   .ctn-entete {
     top: 3%;
     position: relative;
-
     .title_create_burger {
       font-size: 2em;
       font-weight: bold;
       color: white;
       text-align: center;
-      width: 51%;
+      width: 100%;
       margin: 0 auto;
+      @media screen and (max-width: 767px){
+        width: 100%;
+      }
     }
     article {
       margin-bottom: 15px;
       font-size: 1.2em;
       color: white;
+      @media screen and (max-width: 767px){
+        display: none;
+      }
       a {
         color: white;
       }
@@ -132,11 +156,14 @@
 
   .ctn-button {
     margin-top: 30px;
+    color: white;
     a {
       margin-right: 15px;
       &:last-child {
         margin-right: 0;
       }
+    }
+    @media screen and (max-width: 767px){
     }
   }
 
