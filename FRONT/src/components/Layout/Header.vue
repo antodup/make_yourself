@@ -89,7 +89,7 @@
         this.clearState(payload)
       },
       destroy_account() {
-          if (confirm("Souhaitez vous annuler la commande ?")) {
+          if (confirm("Souhaitez vous vous déconnecter et annuler la commande ?")) {
             this.$http.get('https://make-yourself.tk/logout')
               .then((response) => {
                 console.log(response)
