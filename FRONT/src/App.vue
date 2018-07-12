@@ -284,7 +284,9 @@
     font-family: 'Gotham-Bold'
 
   }
-
+  .active-landscape {
+    display: none;
+  }
   @media screen and (max-width: 767px) and (orientation :landscape) {
     .active-landscape {
       display: block;
