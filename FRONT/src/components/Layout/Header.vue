@@ -113,8 +113,8 @@
   /*Responsive*/
 
   .changeBurger .burger:first-child {
-    -webkit-transform: rotate(-45deg) translate(-9px, 14px);
-    transform: rotate(-45deg) translate(-9px, 14px);
+    -webkit-transform: rotate(-45deg) translate(-1px,13px);;
+    transform: rotate(-45deg) translate(-1px,13px);;
   }
 
   .changeBurger .burger:nth-child(2) {
@@ -122,13 +122,14 @@
   }
 
   .changeBurger .burger:last-child {
-    -webkit-transform: rotate(45deg) translate(-12px, -17px);
-    transform: rotate(45deg) translate(-12px, -17px);
+    -webkit-transform: rotate(45deg) translate(-4px,-17px);;
+    transform: rotate(45deg) translate(-4px,-17px);;
   }
 
   .content_burger {
     opacity: 1;
     display: flex;
+    top: 60px;
   }
 
   .burger-menu {
@@ -182,7 +183,7 @@
         width: 100%;
         position: absolute;
         left: 0;
-        height: calc(100vh - 90px);
+        height: 100vh;
         top: 90px;
         background-color: $blue;
         opacity: 0;

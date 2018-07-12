@@ -522,7 +522,7 @@
     flex-direction: column;
     justify-content: space-around;
     @media screen and (max-width: 767px) {
-      height: 150px;
+      height: 110px;
     }
     @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape){
       height: auto;
@@ -573,6 +573,9 @@
     div {
       width: 100%;
       height: 120px;
+      @media screen and (max-width: 767px) {
+        height: 90px;
+      }
     }
     @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
       span {

@@ -27,6 +27,9 @@
     position: relative;
     display: flex;
     background-color: #efefefef;
+    @media screen and (max-width: 767px) {
+      top: 0px;
+    }
     div {
       display: flex;
       align-items: center;

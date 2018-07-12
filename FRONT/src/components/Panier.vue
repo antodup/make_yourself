@@ -345,6 +345,7 @@
     background-size: cover;
     @media screen and (max-width: 767px) {
       height: auto;
+      top: 60px;
     }
   }
 

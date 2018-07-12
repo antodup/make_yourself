@@ -20,9 +20,7 @@
 </template>
 
 <script>
-  export default {
-
-  }
+  export default {}
 </script>
 
 <style lang="scss" scoped>
@@ -37,10 +35,12 @@
     background-image: url("../assets/commander/background-burger.jpg");
     background-size: 120%;
     background-position: right top;
-    @media screen and (max-width: 767px){
+    @media screen and (max-width: 767px) {
       background-size: cover;
+      height: calc(100vh - 100px);
     }
-    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
       background-size: cover;
     }
     h3 {
@@ -52,7 +52,7 @@
       margin-bottom: 15px;
       color: $white;
       font-size: 2.3em;
-      @media screen and (max-width: 767px){
+      @media screen and (max-width: 767px) {
         display: none;
       }
     }
@@ -64,18 +64,18 @@
       align-items: center;
       padding: 0 180px;
       margin: 25px 0px;
-      @media screen and (max-width: 767px){
+      @media screen and (max-width: 767px) {
         padding: 0;
         flex-direction: column;
       }
-      @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
+      @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
         padding: 0;
       }
       span {
         font-size: 2.5em;
         color: $white;
         font-family: 'gotham-medium';
-        @media screen and (max-width: 767px){
+        @media screen and (max-width: 767px) {
           font-size: 2em;
           margin: 5px 0px;
         }
@@ -87,7 +87,7 @@
         bottom: 14px;
         position: relative;
         height: 140px;
-        @media screen and (max-width: 767px){
+        @media screen and (max-width: 767px) {
           height: 80px;
         }
       }

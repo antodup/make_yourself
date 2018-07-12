@@ -76,6 +76,11 @@
     background-image: url("../assets/commander/background-burger.jpg");
     background-size: 120%;
     background-position: right top;
+    @media screen and (max-width: 767px) {
+      height: calc(100vh - 100px);
+      top: 60px;
+      background-size: cover;
+    }
     h1 {
       color: $blue;
       font-family: 'Gotham-Bold';
@@ -93,6 +98,13 @@
       left: 50%;
       position: relative;
       transform: translateY(-50%) translateX(-50%);
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        top: 0%;
+        left: 0%;
+        position: relative;
+        transform: translateY(0%) translateX(0%);
+      }
       input {
         border-bottom-color: $blue;
         margin-bottom: 20px;

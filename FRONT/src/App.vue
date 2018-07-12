@@ -231,6 +231,12 @@
       }
     }
   }
+  @media screen and (max-width: 767px) {
+    .nav-item {
+      width: 50%;
+    }
+  }
+
 
 
 

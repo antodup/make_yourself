@@ -70,8 +70,11 @@
     background-size: cover;
     @media screen and (max-width: 767px){
       background-position: center -7%;
-      background-size: 266%;
+      background-size: 275%;
       background-repeat: no-repeat;
+    }
+    @media screen and (max-width: 767px) {
+      height: calc(100vh - 100px);
     }
     @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
       background-position: center 53%;

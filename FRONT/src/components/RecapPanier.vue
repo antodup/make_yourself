@@ -79,6 +79,7 @@
     justify-content: center;
     @media screen and (max-width: 767px){
       background-size: cover;
+      height: calc(100vh - 100px);
     }
     @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
       background-size: cover;
