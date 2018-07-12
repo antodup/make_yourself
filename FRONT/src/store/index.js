@@ -71,7 +71,7 @@ const state = {
     }, {
       id: '11',
       type: 'proteines',
-      name: 'Poulet Rotit',
+      name: 'Poulet Roti',
       src: require('../assets/burger_creation/proteines/poulet.jpg'),
       fixed: false
     }, {

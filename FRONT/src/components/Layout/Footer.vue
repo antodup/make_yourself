@@ -28,7 +28,7 @@
     display: flex;
     background-color: #efefefef;
     @media screen and (max-width: 767px) {
-      top: 0px;
+      top: 60px;
     }
     div {
       display: flex;
