@@ -137,8 +137,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;}
-    width: 55px;
-    height: 40px;
+    width: 40px;
+    height: 26px;
     .burger {
       width: 100%;
       height: 2px;
@@ -158,7 +158,7 @@
     top: 0;
     position: relative;
     @media screen and (max-width: 767px) {
-      height: 90px;
+      height: 60px;
       display: flex;
       align-items: center;
     }
@@ -168,9 +168,9 @@
       @media screen and (max-width: 767px) {
         display: block;
         margin-bottom: 0;
-        width: 250px;
+        width: 290px;
         img {
-          width: 155px;
+          width: 110px;
         }
       }
     }
