@@ -290,6 +290,7 @@
       position: absolute;
       right: 10%;
       top: 50%;
+      z-index: 99999;
       transform: translateY(-50%);
         img {
           width: 37px;
