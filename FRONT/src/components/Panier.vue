@@ -201,9 +201,9 @@
       this.boissons = this.loadedBoissons
       this.desserts = this.loadedDesserts
       this.pricePanier = this.loadedPanier.price
-      if (this.loadedPanier.desserts || this.loadedPanier.boissons) {
+      if (this.loadedPanier.desserts.id || this.loadedPanier.boissons.id ) {
         this.resultDesserts[0] = this.loadedPanier.desserts
-        this.resultBoissons[0] = this.loadedPanier.boissons
+        this.resultBoissons[0]  = this.loadedPanier.boissons
         boissons = 1
         dessert = 1
       }
@@ -308,6 +308,7 @@
               this.resultBoissons.splice(0, 1)
               this.desserts = this.loadedDesserts
             } else {
+              console.log("ok")
               boissons = 1;
               this.pricePanier += this.resultBoissons[0].price
               document.querySelector("#txt-boisson").style.display = "none"
@@ -323,7 +324,6 @@
           }
           if (this.resultDesserts[0] && dessert == 0) {
             if (this.resultDesserts[0].type != 'dessert') {
-              console.log("ok")
               this.resultDesserts.splice(0, 1)
               this.boissons = this.loadedBoissons
             } else {
