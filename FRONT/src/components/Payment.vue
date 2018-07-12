@@ -94,7 +94,7 @@
       var vue = this
       card = elements.create('card', {style: style});
       card.mount(vue.$refs.payment);
-      this.$http.get('http://localhost:3000/info-user')
+      this.$http.get('https://make-yourself.tk/info-user')
         .then((response) => {
           console.log(response)
           this.infoUser = response.data
@@ -117,7 +117,7 @@
             self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
             return;
           } else {
-            self.$http.post('http://localhost:3000/payment', {
+            self.$http.post('https://make-yourself.tk/payment', {
               payment: result.token,
               panier: self.loadedPanier
             })
@@ -133,7 +133,7 @@
       },
       updateInfo() {
         if (this.newpassword == this.newConfirmpassword) {
-          this.$http.post('http://localhost:3000/updateInfo', {
+          this.$http.post('https://make-yourself.tk/updateInfo', {
             userInfo: this.infoUser,
             password: this.newConfirmpassword
           })
