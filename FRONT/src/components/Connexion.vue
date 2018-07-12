@@ -127,10 +127,10 @@
         font-size: 1.3em;
         font-family: 'Gotham-Book';
         a {
-          color: white;
+          color: $blue;
           transition: color 0.2s;
           &:hover {
-            color: $blue;
+            color: $white;
           }
         }
       }
