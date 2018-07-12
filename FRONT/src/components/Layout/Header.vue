@@ -10,6 +10,10 @@
         <img src="../../assets/logo.svg" alt="Make YourSelf">
       </router-link>
     </h1>
+    <section v-if="loadedHeader == 'commander'" v-model="loadedHeader" class="button-commander" @click="destroy_account">
+      <img src="../../assets/icones/logout.svg" alt="profile">
+      <p>Déconnexion</p>
+    </section>
     <nav>
       <b-container>
         <b-row>
@@ -25,27 +29,21 @@
           </b-col>
           <b-col md="2" class="ctn-logo">
             <h1>
-              <router-link to="/" v-on:click.native="changeHeaderHome">
+              <a href="/" @click="changeHeaderHome">
                 <img src="../../assets/logo.svg" alt="Make YourSelf">
-              </router-link>
+              </a>
             </h1>
           </b-col>
           <b-col md="5" class="ctn-right">
             <ul>
               <li>
-                <a href="#where" >Où sommes nous ?</a>
+                <a href="#where">Où sommes nous ?</a>
               </li>
               <li>
-                <a href="#contact" >Contactez nous !</a>
+                <a href="#contact">Contactez nous !</a>
               </li>
             </ul>
           </b-col>
-          <!--<b-col md="1" v-if="loadedHeader == 'commander'" v-model="loadedHeader" class="button-commander">
-            <section @click="destroy_account">
-              <img src="../../assets/icones/logout.svg" alt="profile">
-              <p>Déconnexion</p>
-            </section>
-          </b-col>-->
         </b-row>
       </b-container>
     </nav>
@@ -59,7 +57,7 @@
     name: "Header",
     data() {
       return {
-        path: window.location.pathname
+        path: window.location.pathname,
       }
     },
     computed: {
@@ -91,19 +89,20 @@
         this.clearState(payload)
       },
       destroy_account() {
-        if (confirm("Etes vous sur de vouloir vous déconnecter et donc d'annuler la commande ?")) {
-          this.$http.get('https://make-yourself.tk/logout')
-            .then((response) => {
-              console.log(response)
-              window.location.href = 'https://make-yourself.tk/';
-            })
-            .catch((error) => {
-              console.log(error)
-            })
-        } else {
-          return
-        }
-      }
+          if (confirm("Souhaitez vous annuler la commande ?")) {
+            this.$http.get('https://make-yourself.tk/logout')
+              .then((response) => {
+                console.log(response)
+                window.location.href = 'https://make-yourself.tk/';
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          } else {
+            return
+          }
+
+      },
     }
   }
 </script>
@@ -114,8 +113,8 @@
   /*Responsive*/
 
   .changeBurger .burger:first-child {
-    -webkit-transform: rotate(-45deg) translate(-1px,13px);;
-    transform: rotate(-45deg) translate(-1px,13px);;
+    -webkit-transform: rotate(-45deg) translate(-1px, 13px);;
+    transform: rotate(-45deg) translate(-1px, 13px);;
   }
 
   .changeBurger .burger:nth-child(2) {
@@ -123,8 +122,8 @@
   }
 
   .changeBurger .burger:last-child {
-    -webkit-transform: rotate(45deg) translate(-4px,-17px);;
-    transform: rotate(45deg) translate(-4px,-17px);;
+    -webkit-transform: rotate(45deg) translate(-4px, -17px);;
+    transform: rotate(45deg) translate(-4px, -17px);;
   }
 
   .content_burger {
@@ -136,9 +135,10 @@
   .burger-menu {
     display: none;
     @media screen and (max-width: 767px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;}
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
     width: 40px;
     height: 26px;
     .burger {
@@ -279,19 +279,24 @@
       }
     }
     .button-commander {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
       padding: 0;
-      justify-content: space-around;
-      section {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        width: 40%;
-        cursor: pointer;
+      -ms-flex-pack: distribute;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
         img {
-          width: 84%;
+          width: 37px;
           margin-bottom: 0px;
-          height: 37px;
+          @media screen and (max-width: 767px){
+            width: 30px;
+          }
         }
         p {
           margin-bottom: 0;
@@ -307,7 +312,7 @@
           p {
             color: $blue;
           }
-        }
+
       }
     }
     .profile {

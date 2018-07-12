@@ -163,7 +163,7 @@
             <section class="price_validate">
               <div>{{pricePanier}}€ TTC</div>
               <button @click="addPanierClick" class="btn-perso">Valider</button>
-              <button @click="ignorePanierClick" class="btn-perso btn-ignorer">Passez ></button>
+              <button @click="ignorePanierClick" class="btn-perso btn-ignorer">Passer ></button>
             </section>
           </section>
         </b-col>
@@ -201,6 +201,12 @@
       this.boissons = this.loadedBoissons
       this.desserts = this.loadedDesserts
       this.pricePanier = this.loadedPanier.price
+      if (this.loadedPanier.desserts || this.loadedPanier.boissons) {
+        this.resultDesserts[0] = this.loadedPanier.desserts
+        this.resultBoissons[0] = this.loadedPanier.boissons
+        boissons = 1
+        dessert = 1
+      }
     },
     computed: {
       ...mapGetters([
@@ -263,7 +269,7 @@
       },
       change(event) {
         var Vue = this
-        console.log(this.pricePanier)
+
         event.path[1].classList.forEach(function (ctn) {
           if (ctn == "ctn-result-boisson" && boissons == 1) {
             Vue.pricePanier -= Vue.resultBoissons[0].price

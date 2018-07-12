@@ -5,8 +5,9 @@
       <router-view/>
     </transition>
     <Footer/>
-    <section id="landscape" class="disabled-landscape">
-      <p>Veuillez retourner puis recharger la page de votre téléphone pour une meilleure lisibilité ! ;-)</p>
+    <section id="landscape" class="active-landscape">
+      <img src="./assets/icones/return.svg"/>
+      <p>Retourner votre téléphone pour une meilleure lisibilité ;-)</p>
     </section>
   </div>
 </template>
@@ -23,17 +24,6 @@
       Footer,
       VueAnchorRouterLink
     },
-    mounted() {
-      if (window.orientation == 90) {
-        document.querySelector("#landscape").classList.remove("disabled-landscape")
-        document.querySelector("#landscape").classList.add("active-landscape")
-      } else {
-        document.querySelector("#landscape").classList.remove("active-landscape")
-        document.querySelector("#landscape").classList.add("disabled-landscape")
-      }
-
-
-    }
   }
 </script>
 
@@ -70,30 +60,6 @@
 
   .disabled-landscape {
     display: none;
-  }
-
-  .active-landscape {
-    display: block;
-    position: absolute;
-    background-color: $yellow;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 99999;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    p {
-      font-size: 2em;
-
-      color: white;
-    }
-    img {
-      width: 30%;
-    }
   }
 
   h2 {
@@ -231,14 +197,12 @@
       }
     }
   }
+
   @media screen and (max-width: 767px) {
     .nav-item {
       width: 50%;
     }
   }
-
-
-
 
   .modal {
     height: 100vh;
@@ -252,7 +216,7 @@
       display: none;
     }
 
-    .btn-primary{
+    .btn-primary {
       border-radius: 20px;
       background-color: transparent;
       border: 1px solid $yellow;
@@ -268,7 +232,7 @@
       }
     }
 
-    .btn-secondary{
+    .btn-secondary {
       border-radius: 20px;
       background-color: transparent;
       border: 1px solid $grey;
@@ -297,10 +261,57 @@
       }
     }
 
-    input{
+    input {
       border-bottom-color: $yellow !important;
     }
   }
 
+  .nav-tabs {
+    border-bottom: 0;
+  }
+
+  .nav-link {
+    background-color: transparent !important;
+    border: none !important;
+    color: $blue !important;
+    font-family: 'Gotham-Bold';
+    font-size: 1.3em !important;
+  }
+
+  .nav-link.active {
+    border-bottom: 2px solid $blue !important;
+    color: $blue;
+    font-family: 'Gotham-Bold'
+
+  }
+
+  @media screen and (max-width: 767px) and (orientation :landscape) {
+    .active-landscape {
+      display: block;
+      position: absolute;
+      background-color: $yellow;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99999;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      p {
+        font-size: 2em;
+        width: 80%;
+        margin-top: 10px;
+        margin-bottom: 0;
+        color: white;
+      }
+      img {
+        width: 17%;
+      }
+    }
+
+  }
 
 </style>
