@@ -3,7 +3,7 @@
     <section id="shop" class="shop section-home">
       <b-col md="12">
         <h2>Vos envies, Vos idées ! <br> Venez commander votre burger personnalisable !</h2>
-        <router-link to="/commander" class="btn-perso btn-yellow">
+        <router-link tag="button" to="/commander" class="btn-perso btn-yellow">
           Commander !
         </router-link>
       </b-col>
