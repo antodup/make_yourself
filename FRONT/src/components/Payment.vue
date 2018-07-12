@@ -3,18 +3,24 @@
     <b-container>
       <h1>Le montant de votre commande est de <span>{{infoUser.priceOrder}}€<sup>TTC</sup></span></h1>
       <section class="ctn-form">
-        <form @submit.prevent="purchase">
-          <h2>Mes informations</h2>
-          <section class="input-left-right">
-            <input type="text" value="" v-model="infoUser.firstname">
-            <input type="text" v-model="infoUser.lastname">
-          </section>
-          <section class="input-left-right">
-            <input type="text" v-model="infoUser.phone">
-            <input type="text" v-model="infoUser.email">
-          </section>
-          <p class="txt-password" v-b-toggle.collapse1>Modifier mon mot de passe
-            <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        <h2>Mes informations</h2>
+        <div class="changement" v-if="changement == 'ok'">Vos changements ont bien été pris en compte !</div>
+
+        <button class="btn-perso info-btn" @click="show=true">Modifier mon compte</button>
+
+        <b-modal id="modal1" v-model="show" title="Modifier mon compte" centered header-class="header_modal"
+                 footer-class="footer_modal" ok-title="Modifier mes informations" cancel-title="Annuler">
+          <form @submit.prevent="">
+            <section class="input-left-right">
+              <input type="text" value="" v-model="infoUser.firstname">
+              <input type="text" v-model="infoUser.lastname">
+            </section>
+            <section class="input-left-right">
+              <input type="text" v-model="infoUser.phone">
+              <input type="text" v-model="infoUser.email">
+            </section>
+            <p class="txt-password" v-b-toggle.collapse1>Modifier mon mot de passe
+              <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                viewBox="0 0 25 45" style="enable-background:new 0 0 25 45;" xml:space="preserve">
             <title>Extra Bold Chevron Right</title>
             <desc>Created with Sketch.</desc>
@@ -25,17 +31,24 @@
               </g>
             </g>
             </svg>
-          </p>
-          <b-collapse id="collapse1" class="mt-2">
-            <section class="input-left-right">
-              <input type="password" placeholder="Nouveau mot de passe" v-model="newpassword"/>
-              <input type="password" placeholder="Confirmer mon mot de passe" v-model="newConfirmpassword"/>
-            </section>
-          </b-collapse>
-          <div v-if="error == 'password'">Vos mots de passe doivent être identiques</div>
-          <h2>Paiement</h2>
+            </p>
+            <b-collapse id="collapse1" class="mt-2">
+              <section class="input-left-right ctn-password">
+                <input type="password" placeholder="Nouveau mot de passe" v-model="newpassword"/>
+                <input type="password" placeholder="Confirmer mon mot de passe" v-model="newConfirmpassword"/>
+              </section>
+              <div class="error-co" v-if="error == 'password'"><img src="../assets/icones/warning.svg" alt="warning error"/>Vos mots de passe doivent être identiques</div>
+            </b-collapse>
+            <div slot="modal-footer" class="w-100">
+              <b-btn type="submit" class="btn-perso" @click="updateInfo">Valider mes informations</b-btn>
+            </div>
+          </form>
+        </b-modal>
+
+        <h2>Paiement</h2>
+        <form @submit.prevent="purchase">
           <section ref="payment"></section>
-          <button type="submit" class="btn-perso">Valider mes informations et payer</button>
+          <button type="submit" class="btn-perso">Payer</button>
         </form>
       </section>
     </b-container>
@@ -72,7 +85,9 @@
         infoUser: {},
         newpassword: null,
         newConfirmpassword: null,
-        error: ''
+        error: '',
+        show: false,
+        changement : ''
       }
     },
     mounted() {
@@ -102,25 +117,37 @@
             self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
             return;
           } else {
-            if (self.newpassword == self.newConfirmpassword) {
-              self.$http.post('http://localhost:3000/payment', {
-                payment: result.token,
-                panier: self.loadedPanier,
-                userInfo: self.infoUser,
-                password: self.newConfirmpassword
+            self.$http.post('http://localhost:3000/payment', {
+              payment: result.token,
+              panier: self.loadedPanier
+            })
+              .then((response) => {
+                console.log(response)
               })
-                .then((response) => {
-                  console.log(response)
-                })
-                .catch((error) => {
-                  console.log(error)
-                })
-              self.$router.push('/thankYou')
-            } else {
-              self.error = 'password'
-            }
+              .catch((error) => {
+                console.log(error)
+              })
+            self.$router.push('/thankYou')
           }
         });
+      },
+      updateInfo() {
+        if (this.newpassword == this.newConfirmpassword) {
+          this.$http.post('http://localhost:3000/updateInfo', {
+            userInfo: this.infoUser,
+            password: this.newConfirmpassword
+          })
+            .then((response) => {
+              console.log(response)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          this.show = false
+          this.changement ='ok'
+        } else {
+          this.error = 'password'
+        }
       }
     },
   }
@@ -135,8 +162,19 @@
     background-image: url("../assets/payment.png");
     background-size: 100%;
     background-position: center;
+    @media screen and (max-width: 767px) {
+      background-size: cover;
+
+    }
     @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
       background-size: cover;
+    }
+
+    .changement {
+      color: $blue;
+      font-weight: bold;
+      font-size: 1.5em;
+      margin-bottom: 15px;
     }
 
     .container {
@@ -185,6 +223,14 @@
         color: white;
       }
     }
+
+
+    .info-btn {
+      margin-top: 0;
+    }
+    .ctn-password {
+      margin-bottom: 20px;
+    }
     .input-left-right {
       display: flex;
       align-items: center;
@@ -196,13 +242,13 @@
     input {
       border-color: $blue;
     }
-    .collapsed{
+    .collapsed {
       svg {
-      transform: rotate(0deg) !important;
+        transform: rotate(0deg) !important;
       }
     }
     .txt-password {
-      color: $blue;
+      color: white;
       font-size: 1.4em;
       margin-top: 30px;
       margin-bottom: 0px;
@@ -216,13 +262,13 @@
         margin-left: 20px;
         transform: rotate(90deg);
         .st0 {
-          fill: #312783;
+          fill: white;
         }
       }
 
       &:hover {
         color: white;
-        svg  {
+        svg {
           .st0 {
             fill: white;
           }
@@ -253,5 +299,18 @@
   .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
   }
+
+  .error-co {
+    color: red;
+    font-family: 'Gotham-Bold';
+    text-align: left;
+    margin-top: -20px;
+    display: flex;
+    align-items: center;
+    img {
+      height: 25px;
+    }
+  }
+
 
 </style>

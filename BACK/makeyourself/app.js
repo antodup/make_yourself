@@ -36,8 +36,6 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
-app.set('view engine', 'html');
-
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler

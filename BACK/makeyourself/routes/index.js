@@ -165,37 +165,7 @@ router.post('/payment', function (req, res, next) {
             res.json(response)
             var dateStart = new Date
             var date = dateStart.getFullYear() + "-" + (dateStart.getMonth() + 1) + "-" + dateStart.getDate() + " " + dateStart.getHours() + ":" + dateStart.getMinutes() + ":" + dateStart.getSeconds()
-            var idUserOrder = user.idUser
             if (response.status == 'succeeded') {
-                console.log(req.body)
-                database.sendQuery('SELECT * FROM `users` WHERE id LIKE "' + idUserOrder + '"', function (err, results) {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        console.log(results)
-                        if (req.body.userInfo.firstname != results[0].firstname || req.body.userInfo.lastname != results[0].lastname || req.body.userInfo.email != results[0].email || req.body.userInfo.phone != results[0].phone_number) {
-                            console.log("ok")
-                            database.sendQuery('UPDATE `users` SET firstname = "' + req.body.userInfo.firstname + '", lastname = "' + req.body.userInfo.lastname + '", mail = "' + req.body.userInfo.email + '", phone_number = "' + req.body.userInfo.phone + '" WHERE id = "' + idUserOrder + '"', function (err, results) {
-                                if (err) {
-                                    console.error(err)
-                                } else {
-                                    console.log(results)
-                                }
-                            })
-                        }
-                        if (req.body.password != null) {
-                            let pass = bcrypt.hashSync(req.body.password, 10)
-                            //INSERT IN DATABASE
-                            database.sendQuery('UPDATE `users` SET password = "' + pass + '"', function (err, results) {
-                                if (err) {
-                                    console.log(err)
-                                } else {
-                                    console.log(results)
-                                }
-                            })
-                        }
-                    }
-                })
                 database.sendQuery('INSERT INTO `orders` (id_user, id_pain, id_condiment1, id_condiment2, id_condiment3, id_proteines, id_dessert, id_boisson, price, createdAt) VALUES(' + idUserOrder + ', ' + panier.burger.resultPain[0].id + ', ' + panier.burger.resultCondiment1[0].id + ', ' + panier.burger.resultCondiment2[0].id + ', ' + panier.burger.resultCondiment3[0].id + ', ' + panier.burger.resultProteines[0].id + ', ' + panier.desserts.id + ', ' + panier.boissons.id + ', ' + amount / 100 + ', "' + date + '")', function (err, results) {
                     if (err) {
                         console.error(err)
@@ -205,6 +175,39 @@ router.post('/payment', function (req, res, next) {
                 })
             }
         })
+})
+
+router.post('/updateInfo', function (req, res, next) {
+    console.log(req.body)
+    var idUserOrder = user.idUser
+    database.sendQuery('SELECT * FROM `users` WHERE id LIKE "' + idUserOrder + '"', function (err, results) {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(results)
+            if (req.body.userInfo.firstname != results[0].firstname || req.body.userInfo.lastname != results[0].lastname || req.body.userInfo.email != results[0].email || req.body.userInfo.phone != results[0].phone_number) {
+                console.log("ok")
+                database.sendQuery('UPDATE `users` SET firstname = "' + req.body.userInfo.firstname + '", lastname = "' + req.body.userInfo.lastname + '", mail = "' + req.body.userInfo.email + '", phone_number = "' + req.body.userInfo.phone + '" WHERE id = "' + idUserOrder + '"', function (err, results) {
+                    if (err) {
+                        console.error(err)
+                    } else {
+                        console.log(results)
+                    }
+                })
+            }
+            if (req.body.password != null) {
+                let pass = bcrypt.hashSync(req.body.password, 10)
+                //INSERT IN DATABASE
+                database.sendQuery('UPDATE `users` SET password = "' + pass + '"', function (err, results) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(results)
+                    }
+                })
+            }
+        }
+    })
 })
 
 router.get('/info-user', function (req, res, next) {

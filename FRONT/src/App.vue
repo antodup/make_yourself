@@ -24,13 +24,13 @@
       VueAnchorRouterLink
     },
     mounted() {
-        if (window.orientation == 90) {
-          document.querySelector("#landscape").classList.remove("disabled-landscape")
-          document.querySelector("#landscape").classList.add("active-landscape")
-        } else {
-            document.querySelector("#landscape").classList.remove("active-landscape")
-            document.querySelector("#landscape").classList.add("disabled-landscape")
-        }
+      if (window.orientation == 90) {
+        document.querySelector("#landscape").classList.remove("disabled-landscape")
+        document.querySelector("#landscape").classList.add("active-landscape")
+      } else {
+        document.querySelector("#landscape").classList.remove("active-landscape")
+        document.querySelector("#landscape").classList.add("disabled-landscape")
+      }
 
 
     }
@@ -228,4 +228,70 @@
       }
     }
   }
+
+
+
+  .modal {
+    height: 100vh;
+    width: 100vw;
+    .modal-content {
+      background-color: #312783;
+    }
+
+    .modal-footer {
+      border-top: 0px;
+      display: none;
+    }
+
+    .btn-primary{
+      border-radius: 20px;
+      background-color: transparent;
+      border: 1px solid $yellow;
+      &:hover {
+        background-color: $yellow;
+      }
+      &:active {
+        background-color: $yellow !important;
+        border-color: $yellow !important;
+      }
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(252, 189, 34, 0.5);
+      }
+    }
+
+    .btn-secondary{
+      border-radius: 20px;
+      background-color: transparent;
+      border: 1px solid $grey;
+      &:hover {
+        background-color: $grey;
+      }
+      &:active {
+        background-color: $grey !important;
+        border-color: $grey !important;
+      }
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(148, 145, 149, 0.5);
+      }
+    }
+
+    .close {
+      color: white;
+    }
+
+    .btn-perso {
+      border-color: $yellow !important;
+      border-radius: 40px;
+      color: white !important;
+      &:hover {
+        background-color: $yellow !important;
+      }
+    }
+
+    input{
+      border-bottom-color: $yellow !important;
+    }
+  }
+
+
 </style>
