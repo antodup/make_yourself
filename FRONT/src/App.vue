@@ -288,6 +288,9 @@
     display: none;
   }
   @media screen and (max-width: 767px) and (orientation :landscape) {
+    body {
+      overflow: hidden;
+    }
     .active-landscape {
       display: block;
       position: absolute;
