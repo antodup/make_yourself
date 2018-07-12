@@ -15,7 +15,7 @@
             <h2>A propos de nous ! </h2>
             <p>Nous sommes parties du constat que vous, travailleur, à l’heure du déjeuner, vous mangez toujours la même
               chose et en plus dans un temps limité. <br><br>Alors Make Yourself c’est votre nouveau food-truck qui vous
-              propose des burgers hypersonnalisés avec des produits et des ingrédients frais en moins de 30 min ! </p>
+              propose des burgers hyper-personnalisés avec des produits et des ingrédients frais en moins de 30 min ! </p>
           </b-col>
           <b-col md="6">
             <img src="../assets/home/toque.svg" alt="toque make yourself">

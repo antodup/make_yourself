@@ -52,6 +52,7 @@
                 this.error = response.data;
                 document.querySelector("#mail").classList.add('error-input')
               } else {
+                alert('Votre inscription est validée !')
                 this.$router.push('/connexion')
               }
             })
