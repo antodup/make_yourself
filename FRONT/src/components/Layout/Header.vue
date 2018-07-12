@@ -77,7 +77,8 @@
         'clearState',
       ]),
       menu_burger(event) {
-        event.path[1].classList.toggle("changeBurger");
+        console.log(event)
+        document.querySelector(".burger-menu").classList.toggle("changeBurger");
         document.querySelector("nav").classList.toggle("content_burger")
         document.querySelector("body").classList.toggle("body-res")
       },

@@ -3,8 +3,8 @@
       <b-container>
         <b-row>
           <b-col md="12">
-            <router-link to="">Mention légales</router-link>
-            <router-link to="">Conditions générales de ventes</router-link>
+            <router-link to="/mention_legales">Mention légales</router-link>
+            <router-link to="/condition_general">Conditions générales de ventes</router-link>
           </b-col>
         </b-row>
       </b-container>

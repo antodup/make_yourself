@@ -46,7 +46,7 @@
       <span class="txt-recap">{{loadedPanier.price}}€<sup class="ttc">TTC</sup></span>
     </section>
     <h2>Votre Commande sera prête dans 30min !*</h2>
-    <p>*Ceci est un temps estimée</p>
+    <p>*Ceci est un temps estimé</p>
     <router-link to="/connexion" tag="button" class="btn-perso">COMMANDER</router-link>
   </section>
 

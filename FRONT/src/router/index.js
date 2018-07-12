@@ -10,6 +10,8 @@ import Panier from'@/components/Panier'
 import RecapPanier from '@/components/RecapPanier'
 import Payment from'@/components/Payment'
 import ThankYou from'@/components/ThankYou'
+import MentionLegales from'@/components/MentionLegales'
+import ConditionGeneral from'@/components/ConditionGeneral'
 
 Vue.use(Router)
 
@@ -64,6 +66,19 @@ export default new Router({
       path: '/thankYou',
       name: 'ThankYou',
       component: ThankYou
+    },
+    {
+      path: '/mention_legales',
+      name: 'MentionLegales',
+      component: MentionLegales
+    },
+    ,
+    {
+      path: '/condition_general',
+      name: 'ConditionGeneral',
+      component: ConditionGeneral
     }
+
+
   ]
 })
