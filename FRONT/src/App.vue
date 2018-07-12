@@ -162,6 +162,9 @@
     align-items: center;
     justify-content: center;
     background-repeat: no-repeat;
+    @media screen and (max-width: 767px) {
+      top: 60px;
+    }
 
   }
 

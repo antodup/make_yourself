@@ -108,6 +108,9 @@
     align-items: center;
     justify-content: center;
     top: 90px;
+    @media screen and (max-width: 767px) {
+      top: 60px;
+    }
       div {
       background-color: rgba(0, 0, 0, 0.54);
       padding: 20px;
